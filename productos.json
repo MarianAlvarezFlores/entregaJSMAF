@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "nombre": "Abrigo Blanco",
+        "precio": 65000,
+        "stock": 4,
+        "img": "./media/Abrigo_blanco.jpg"
+    },
+    {
+        "id": 2,
+        "nombre": "Blazer",
+        "precio": 52000,
+        "stock": 6,
+        "img": "./media/blazer.jpg"
+    },
+    {
+        "id": 3,
+        "nombre": "Camisa de Seda",
+        "precio": 35000,
+        "stock": 8,
+        "img": "./media/camisa_seda.jpeg"
+    },
+    {
+        "id": 4,
+        "nombre": "Jean Navy",
+        "precio": 28000,
+        "stock": 12,
+        "img": "./media/jean_navy.jpeg"
+    },
+    {
+        "id": 5,
+        "nombre": "Lumina Nocturna",
+        "precio": 18000,
+        "stock": 15,
+        "img": "./media/Lumina_nocturna.png"
+    },
+    {
+        "id": 6,
+        "nombre": "Polera Negra",
+        "precio": 22000,
+        "stock": 20,
+        "img": "./media/polera_negra.jpeg"
+    },
+    {
+        "id": 7,
+        "nombre": "Pollera Midi Tablas",
+        "precio": 31000,
+        "stock": 7,
+        "img": "./media/pollera_midi_tablas.jpeg"
+    },
+    {
+        "id": 8,
+        "nombre": "Poncho Negro",
+        "precio": 42000,
+        "stock": 5,
+        "img": "./media/poncho_negro.jpg"
+    },
+    {
+        "id": 9,
+        "nombre": "Remera sin Mangas",
+        "precio": 15000,
+        "stock": 25,
+        "img": "./media/remera_sin_mangas.jpeg"
+    },
+    {
+        "id": 10,
+        "nombre": "Tapado Negro",
+        "precio": 75000,
+        "stock": 3,
+        "img": "./media/tapado_negro.jpeg"
+    }
+]
