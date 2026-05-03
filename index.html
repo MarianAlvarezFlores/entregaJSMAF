@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Morenas tienda de ropa</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+
+    <header>
+        <h1>Las Morenas</h1>
+        <nav>
+            <button id="btn-login">Iniciar Sesión</button>
+            <button id="btn-logout" style="display: none;">Cerrar Sesión</button>
+            <button id="btn-theme" title="Alternar modo oscuro">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="productos-seccion">
+            <h2>Catálogo de Productos</h2>
+            <div id="contenedor-productos" class="grid-productos">
+                </div>
+        </section>
+
+        <section id="carrito-seccion">
+            <h2>Carrito</h2>
+            <ul id="carrito-items">
+                <p>El carrito está vacío.</p>
+            </ul>
+            <div class="carrito-footer">
+                <p>Total: <span id="total">$0</span></p>
+                <button id="btn-comprar" class="btn-principal">Finalizar Compra</button>
+                <button id="btn-vaciar" class="btn-secundario">Vaciar Carrito</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Proyecto Final - JavaScript</p>
+    </footer>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
