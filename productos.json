@@ -3,70 +3,166 @@
         "id": 1,
         "nombre": "Abrigo Blanco",
         "precio": 65000,
-        "stock": 4,
+        "variantes": [
+            { "talle": "S", "stock": 1 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 1 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/Abrigo_blanco.jpg"
     },
     {
         "id": 2,
         "nombre": "Blazer",
         "precio": 52000,
-        "stock": 6,
+        "variantes": [
+            { "talle": "S", "stock": 2 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 2 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/blazer.jpg"
     },
     {
         "id": 3,
         "nombre": "Camisa de Seda",
         "precio": 35000,
-        "stock": 8,
+        "variantes": [
+            { "talle": "S", "stock": 2 },
+            { "talle": "M", "stock": 3 },
+            { "talle": "L", "stock": 3 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/camisa_seda.jpeg"
     },
     {
         "id": 4,
         "nombre": "Jean Navy",
         "precio": 28000,
-        "stock": 12,
+        "variantes": [
+            { "talle": "S", "stock": 4 },
+            { "talle": "M", "stock": 4 },
+            { "talle": "L", "stock": 4 }
+        ],
+        "categoria": "partes de abajo",
         "img": "./media/jean_navy.jpeg"
     },
     {
         "id": 5,
-        "nombre": "Lumina Nocturna",
-        "precio": 18000,
-        "stock": 15,
-        "img": "./media/Lumina_nocturna.png"
-    },
-    {
-        "id": 6,
         "nombre": "Polera Negra",
         "precio": 22000,
-        "stock": 20,
+        "variantes": [
+            { "talle": "S", "stock": 6 },
+            { "talle": "M", "stock": 7 },
+            { "talle": "L", "stock": 7 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/polera_negra.jpeg"
     },
     {
-        "id": 7,
+        "id": 6,
         "nombre": "Pollera Midi Tablas",
         "precio": 31000,
-        "stock": 7,
+        "variantes": [
+            { "talle": "S", "stock": 2 },
+            { "talle": "M", "stock": 3 },
+            { "talle": "L", "stock": 2 }
+        ],
+        "categoria": "partes de abajo",
         "img": "./media/pollera_midi_tablas.jpeg"
     },
     {
-        "id": 8,
+        "id": 7,
         "nombre": "Poncho Negro",
         "precio": 42000,
-        "stock": 5,
+        "variantes": [
+            { "talle": "S", "stock": 1 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 2 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/poncho_negro.jpg"
     },
     {
-        "id": 9,
+        "id": 8,
         "nombre": "Remera sin Mangas",
         "precio": 15000,
-        "stock": 25,
+        "variantes": [
+            { "talle": "S", "stock": 8 },
+            { "talle": "M", "stock": 9 },
+            { "talle": "L", "stock": 8 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/remera_sin_mangas.jpeg"
     },
     {
-        "id": 10,
+        "id": 9,
         "nombre": "Tapado Negro",
         "precio": 75000,
-        "stock": 3,
+        "variantes": [
+            { "talle": "S", "stock": 1 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 2 }
+        ],
+        "categoria": "partes de arriba",
         "img": "./media/tapado_negro.jpeg"
+    },
+    {
+        "id": 10,
+        "nombre": "Pantalon sastrero negro",
+        "precio": 75000,
+        "variantes": [
+            { "talle": "S", "stock": 6 },
+            { "talle": "M", "stock": 7 },
+            { "talle": "L", "stock": 7 }
+        ],
+        "categoria": "partes de abajo",
+        "img": "./media/pantalon_sastrero_negro.jpg"
+    },
+    {
+        "id": 11,
+        "nombre": "Vestido drapeado midi",
+        "precio": 120000,
+        "variantes": [
+            { "talle": "S", "stock": 1 },
+            { "talle": "M", "stock": 1 },
+            { "talle": "L", "stock": 1 }
+        ],
+        "categoria": "vestidos",
+        "img": "./media/vestido_drapeado.jpg"
+    },
+    {
+        "id": 12,
+        "nombre": "Vestido irregular",
+        "precio": 110000,
+        "variantes": [
+            { "talle": "S", "stock": 1 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 1 }
+        ],
+        "categoria": "vestidos",
+        "img": "./media/vestido_irregular.jpg"
+    },
+    {
+        "id": 13,
+        "nombre": "Vestido nudo",
+        "precio": 80000,
+        "variantes": [
+            { "talle": "S", "stock": 2 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 2 }
+        ],
+        "categoria": "vestidos",
+        "img": "./media/vestido_nudo.jpg"
+    },
+    {
+        "id": 14,
+        "nombre": "Vestido de novia",
+        "precio": 1500000,
+        "variantes": [
+            { "talle": "M", "stock": 1 }
+        ],
+        "categoria": "vestidos",
+        "img": "./media/vestido_novia.jpg"
     }
 ]
