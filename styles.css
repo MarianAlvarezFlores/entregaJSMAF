@@ -1,8 +1,8 @@
-.h1{
-    font-family: 'Playfair Display';
-    font-size: 14px;
+h1{
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
     letter-spacing: 0.14em;
-    color: #F2F2F2;
+    color: #696767;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 600;
 }
