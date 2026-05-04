@@ -1,122 +1,177 @@
+import { obtenerProductos } from "./products.js";
+import { AuthService } from "./auth.js";
+import { Carrito } from "./cart.js";
+import { renderProductos, renderCarrito, mostrarToast } from "./ui.js";
 import { LocalStorageService } from "./storage.js";
 
-export class Carrito {
-    constructor() {
-        this.items = LocalStorageService.obtener("carrito") || [];
-    }
+const miCarrito = new Carrito();
+let listaProductos = [];
 
-    agregar(id, productos, talleSeleccionado = "M") { // Por defecto talle M si no se especifica
-        const prod = productos.find(p => p.id === id);
-        if (!prod) return false;
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const contenedorProductos = document.getElementById("contenedor-productos");
+        listaProductos = await obtenerProductos();
 
-        // Hay stock para el talle?
-        if (!prod.tieneStock(talleSeleccionado, 1)) {
-            return false;
+        if (listaProductos.length === 0) {
+            mostrarToast("No hay productos disponibles en el catálogo.");
+            return;
         }
 
-        const existente = this.items.find(p => p.id === id && p.talle === talleSeleccionado);
+        const agregarAlCarrito = (id, talle) => {
+            const agregado = miCarrito.agregar(id, listaProductos, talle);
+            
+            if (agregado) {
+                mostrarToast("Producto agregado al carrito");
+                renderCarrito(
+                    document.getElementById("carrito-items"), 
+                    miCarrito.getItems(), 
+                    miCarrito.calcularTotal()
+                );
+            } else {
+                mostrarToast("No hay suficiente stock para la variante seleccionada.");
+            }
+        };
 
-        if (existente) {
-            existente.cantidad += 1;
-        } else {
-            this.items.push({
-                ...prod,
-                talle: talleSeleccionado,
-                cantidad: 1
-            });
-        }
+        renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
 
-        this.guardarCarrito();
-        // Resto el stock
-        prod.descontarStock(talleSeleccionado, 1);
-        return true;
+        // Lógica de los filtros
+        const btnTodos = document.getElementById("btn-todos");
+        const btnArriba = document.getElementById("btn-arriba");
+        const btnAbajo = document.getElementById("btn-abajo");
+        const btnVestidos = document.getElementById("btn-vestidos");
+
+        const aplicarFiltro = (categoria) => {
+            if (categoria === "todos") {
+                renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
+            } else {
+                const filtrados = listaProductos.filter(p => p.categoria === categoria);
+                renderProductos(contenedorProductos, filtrados, agregarAlCarrito);
+            }
+        };
+
+        if (btnTodos) btnTodos.addEventListener("click", () => aplicarFiltro("todos"));
+        if (btnArriba) btnArriba.addEventListener("click", () => aplicarFiltro("partes de arriba"));
+        if (btnAbajo) btnAbajo.addEventListener("click", () => aplicarFiltro("partes de abajo"));
+        if (btnVestidos) btnVestidos.addEventListener("click", () => aplicarFiltro("vestidos"));
+
+    } catch (error) {
+        console.error("Error al cargar la app:", error);
+        mostrarToast("Error al conectar con la base de datos de productos.");
+    }
+});
+
+// Implementación del modo oscuro
+const btnTheme = document.getElementById("btn-theme");
+if (btnTheme) {
+    if (localStorage.getItem("dark-mode") === "true") {
+        document.body.classList.add("dark-mode");
     }
 
-    incrementarCantidad(id, productos) {
-        const existente = this.items.find(p => p.id === id);
-        if (existente) {
-            const prod = productos.find(p => p.id === id);
-            if (prod && prod.tieneStock(existente.talle, 1)) {
-                existente.cantidad += 1;
-                prod.descontarStock(existente.talle, 1);
-                this.guardarCarrito();
+    btnTheme.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem("dark-mode", isDark);
+    });
+}
+
+// Botones de autenticación
+const btnOpenRegister = document.getElementById("btn-open-register");
+if (btnOpenRegister) {
+    btnOpenRegister.addEventListener("click", () => {
+        const email = prompt("Ingrese su correo electrónico:");
+        const pass = prompt("Ingrese su contraseña (mínimo 4 caracteres):");
+
+        if (email && pass) {
+            const resultado = AuthService.registrar(email, pass);
+            if (resultado === "ok") {
+                mostrarToast("¡Registro exitoso! Ya puedes iniciar sesión.");
+            } else {
+                mostrarToast(`Error: ${resultado}`);
             }
         }
-    }
+    });
+}
 
-    decrementarCantidad(id, productos) {
-        const existente = this.items.find(p => p.id === id);
-        if (existente) {
-            existente.cantidad -= 1;
+const btnOpenLogin = document.getElementById("btn-open-login");
+if (btnOpenLogin) {
+    btnOpenLogin.addEventListener("click", () => {
+        const email = prompt("Ingrese su correo electrónico:");
+        const pass = prompt("Ingrese su contraseña:");
 
-            const prod = productos.find(p => p.id === id);
-            if (prod) {
-                // Devuelvo el stock al producto
-                prod.variantes.find(v => v.talle === existente.talle).stock += 1;
-            }
-
-            if (existente.cantidad <= 0) {
-                const index = this.items.indexOf(existente);
-                this.items.splice(index, 1);
-            }
-
-            this.guardarCarrito();
-        }
-    }
-
-    calcularTotal() {
-        return this.items.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-    }
-
-    finalizarCompra(catalogoProductos) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                try {
-                    if (this.items.length === 0) {
-                        throw new Error("El carrito está vacío. Agregue productos antes de comprar.");
-                    }
-
-                    this.items.forEach(itemEnCarrito => {
-                        const productoReal = catalogoProductos.find(p => p.id === itemEnCarrito.id);
-                        if (!productoReal || !productoReal.tieneStock(itemEnCarrito.talle, itemEnCarrito.cantidad)) {
-                            throw new Error(`Stock insuficiente para el producto: ${itemEnCarrito.nombre} (Talle: ${itemEnCarrito.talle})`);
-                        }
-                    });
-
-                    const codigoPedido = `PED-${Date.now().toString().slice(-6)}`;
-                    const totalCompra = this.calcularTotal();
-
-                    const comprobante = {
-                        codigo: codigoPedido,
-                        productos: this.getItems(),
-                        total: totalCompra,
-                        fecha: new Date().toLocaleDateString()
-                    };
-
-                    this.vaciar();
-
-                    resolve({ 
-                        mensaje: `¡Compra procesada! Código: ${codigoPedido}`, 
-                        comprobante 
-                    });
-
-                } catch (error) {
-                    reject(error.message);
+        if (email && pass) {
+            const resultado = AuthService.login(email, pass);
+            if (resultado === "ok") {
+                mostrarToast("¡Sesión iniciada correctamente!");
+                
+                document.getElementById("btn-open-register").style.display = "none";
+                btnOpenLogin.style.display = "none";
+                const btnLogout = document.getElementById("btn-logout");
+                if (btnLogout) {
+                    btnLogout.style.display = "inline-block";
                 }
-            }, 2000);
-        });
-    }
+            } else {
+                mostrarToast("Error en las credenciales. Verifique los datos.");
+            }
+        }
+    });
+}
 
-    vaciar() {
-        this.items.length = 0;
-        this.guardarCarrito();
-    }
+const btnLogout = document.getElementById("btn-logout");
+if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+        AuthService.logout();
+        mostrarToast("Sesión cerrada.");
+        
+        btnLogout.style.display = "none";
+        const regBtn = document.getElementById("btn-open-register");
+        if (regBtn) regBtn.style.display = "inline-block";
+        const loginBtn = document.getElementById("btn-open-login");
+        if (loginBtn) loginBtn.style.display = "inline-block";
 
-    getItems() {
-        return [...this.items];
-    }
+        const carritoItems = document.getElementById("carrito-items");
+        if (carritoItems) {
+            carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
+        }
+        const total = document.getElementById("total");
+        if (total) {
+            total.textContent = "$0";
+        }
+    });
+}
 
-    guardarCarrito() {
-        LocalStorageService.guardar("carrito", this.items);
-    }
+// Procesar compra
+const btnComprar = document.getElementById("btn-comprar");
+if (btnComprar) {
+    btnComprar.addEventListener("click", async () => {
+        const usuarioActual = LocalStorageService.obtener("usuario");
+        
+        if (!usuarioActual) {
+            mostrarToast("Debes iniciar sesión para finalizar la compra.");
+            return;
+        }
+
+        mostrarToast("Estamos procesando tu pedido, por favor espera...");
+
+        try {
+            const resultado = await miCarrito.finalizarCompra(listaProductos);
+            mostrarToast(resultado.mensaje);
+            renderCarrito(document.getElementById("carrito-items"), miCarrito.getItems(), miCarrito.calcularTotal());
+        } catch (error) {
+            mostrarToast("Error: " + error);
+        }
+    });
+}
+
+// Vaciar carrito
+const btnVaciar = document.getElementById("btn-vaciar");
+if (btnVaciar) {
+    btnVaciar.addEventListener("click", () => {
+        miCarrito.vaciar();
+        mostrarToast("El carrito se ha vaciado.");
+        renderCarrito(
+            document.getElementById("carrito-items"), 
+            miCarrito.getItems(), 
+            miCarrito.calcularTotal()
+        );
+    });
 }
