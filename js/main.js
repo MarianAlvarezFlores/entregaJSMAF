@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        renderProductos(contenedorProductos, listaProductos, (id, talle) => {
+        const agregarAlCarrito = (id, talle) => {
             const agregado = miCarrito.agregar(id, listaProductos, talle);
             
             if (agregado) {
@@ -30,7 +30,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
                 mostrarToast("No hay suficiente stock para la variante seleccionada.");
             }
-        });
+        };
+
+        if (contenedorProductos) {
+            renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
+        }
+
+        // Lógica de los filtros
+        const btnTodos = document.getElementById("btn-todos");
+        const btnArriba = document.getElementById("btn-arriba");
+        const btnAbajo = document.getElementById("btn-abajo");
+        const btnVestidos = document.getElementById("btn-vestidos");
+
+        const aplicarFiltro = (categoria) => {
+            if (!contenedorProductos) return;
+
+            if (categoria === "todos") {
+                renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
+            } else {
+                const filtrados = listaProductos.filter(p => p.categoria.toLowerCase() === categoria.toLowerCase());
+                renderProductos(contenedorProductos, filtrados, agregarAlCarrito);
+            }
+        };
+
+        if (btnTodos) btnTodos.addEventListener("click", () => aplicarFiltro("todos"));
+        if (btnArriba) btnArriba.addEventListener("click", () => aplicarFiltro("partes de arriba"));
+        if (btnAbajo) btnAbajo.addEventListener("click", () => aplicarFiltro("partes de abajo"));
+        if (btnVestidos) btnVestidos.addEventListener("click", () => aplicarFiltro("vestidos"));
 
     } catch (error) {
         console.error("Error al cargar la app:", error);
@@ -141,6 +167,7 @@ if (btnComprar) {
         }
     });
 }
+
 // Vaciar carro
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
