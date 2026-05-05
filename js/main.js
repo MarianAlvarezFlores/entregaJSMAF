@@ -21,14 +21,30 @@ document.addEventListener("DOMContentLoaded", async () => {
             const agregado = miCarrito.agregar(id, listaProductos, talle);
             
             if (agregado) {
-                mostrarToast("Producto agregado al carrito");
+                // Notificación pequeña tipo Toast de SweetAlert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Producto agregado al carrito'
+                });
+
                 renderCarrito(
                     document.getElementById("carrito-items"), 
                     miCarrito.getItems(), 
                     miCarrito.calcularTotal()
                 );
             } else {
-                // Alerta de stock insuficiente
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -215,7 +231,7 @@ if (btnLogout) {
     });
 }
 
-// Botón para finalizar compra con alerta de confirmación
+// Botón para finalizar compra
 const btnComprar = document.getElementById("btn-comprar");
 if (btnComprar) {
     btnComprar.addEventListener("click", async () => {
@@ -231,7 +247,6 @@ if (btnComprar) {
             return;
         }
 
-        // Alerta de procesamiento
         Swal.fire({
             title: 'Procesando tu pedido',
             text: 'Por favor, espera unos instantes...',
@@ -261,7 +276,7 @@ if (btnComprar) {
     });
 }
 
-// Vaciar carrito con confirmación
+// Vaciar carrito
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
@@ -277,7 +292,25 @@ if (btnVaciar) {
         }).then((result) => {
             if (result.isConfirmed) {
                 miCarrito.vaciar();
-                mostrarToast("El carrito se ha vaciado.");
+
+                // Notificación pequeña tipo Toast de SweetAlert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'El carrito se ha vaciado'
+                });
+
                 renderCarrito(
                     document.getElementById("carrito-items"), 
                     miCarrito.getItems(), 
