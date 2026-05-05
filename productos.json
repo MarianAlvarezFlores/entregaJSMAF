@@ -160,7 +160,9 @@
         "nombre": "Vestido de novia",
         "precio": 1500000,
         "variantes": [
-            { "talle": "M", "stock": 1 }
+            { "talle": "S", "stock": 2 },
+            { "talle": "M", "stock": 2 },
+            { "talle": "L", "stock": 2 }
         ],
         "categoria": "vestidos",
         "img": "./media/vestido_novia.jpg"

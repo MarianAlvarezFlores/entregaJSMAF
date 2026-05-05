@@ -297,6 +297,18 @@ if (btnComprar) {
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
+        // 1. Verifico que e carrito esté efectivamente vacío
+        if (miCarrito.getItems().length === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Carrito vacío',
+                text: 'No hay productos en el carrito para vaciar.',
+                confirmButtonColor: '#D4AF37'
+            });
+            return; 
+        }
+
+        // 2. Si tiene productos, mostramos la confirmación
         Swal.fire({
             title: '¿Estás seguro?',
             text: "No podrás revertir esta acción.",
@@ -309,8 +321,8 @@ if (btnVaciar) {
         }).then((result) => {
             if (result.isConfirmed) {
                 miCarrito.vaciar();
-
-                // Notificación pequeña tipo Toast de SweetAlert2
+                
+                //SweetAlert2
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'bottom-end',
