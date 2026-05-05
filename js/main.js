@@ -78,36 +78,100 @@ if (btnTheme) {
     });
 }
 
-// Botones de autenticación
+// Botones de autenticación con SweetAlert2
 const btnOpenRegister = document.getElementById("btn-open-register");
 const btnOpenLogin = document.getElementById("btn-open-login");
 const btnLogout = document.getElementById("btn-logout");
 
 if (btnOpenRegister) {
-    btnOpenRegister.addEventListener("click", () => {
-        const user = prompt("Ingrese su nombre de usuario (mínimo 3 caracteres):");
-        const pass = prompt("Ingrese su contraseña (mínimo 4 caracteres):");
+    btnOpenRegister.addEventListener("click", async () => {
+        const { value: formValues } = await Swal.fire({
+            title: "Registrarse",
+            html: `
+                <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
+                <div style="position: relative; display: inline-block; width: 100%;">
+                    <input id="swal-password" class="swal2-input" placeholder="Contraseña" type="password" style="margin: 0 auto; width: 80%;">
+                    <button type="button" id="swal-toggle-pass" style="position: absolute; right: 10px; top: 15px; border: none; background: none; cursor: pointer;">👁️</button>
+                </div>
+            `,
+            focusConfirm: false,
+            didOpen: () => {
+                const toggleBtn = document.getElementById("swal-toggle-pass");
+                if (toggleBtn) {
+                    toggleBtn.addEventListener("click", () => {
+                        const passInput = document.getElementById("swal-password");
+                        if (passInput.type === "password") {
+                            passInput.type = "text";
+                            toggleBtn.textContent = "🙈";
+                        } else {
+                            passInput.type = "password";
+                            toggleBtn.textContent = "👁️";
+                        }
+                    });
+                }
+            },
+            preConfirm: () => {
+                const email = document.getElementById("swal-email").value;
+                const pass = document.getElementById("swal-password").value;
+                if (!email || !pass) {
+                    Swal.showValidationMessage("Por favor, complete todos los campos");
+                }
+                return { email, pass };
+            }
+        });
 
-        if (user && pass) {
-            const resultado = AuthService.registrar(user, pass);
+        if (formValues) {
+            const resultado = AuthService.registrar(formValues.email, formValues.pass);
             if (resultado === "ok") {
-                mostrarToast("¡Registro exitoso! Ya puedes iniciar sesión.");
+                Swal.fire("¡Éxito!", "Registro exitoso. Ya puedes iniciar sesión.", "success");
             } else {
-                mostrarToast(`Error: ${resultado}`);
+                Swal.fire("Error", `No se pudo registrar: ${resultado}`, "error");
             }
         }
     });
 }
 
 if (btnOpenLogin) {
-    btnOpenLogin.addEventListener("click", () => {
-        const user = prompt("Ingrese su usuario:");
-        const pass = prompt("Ingrese su contraseña:");
+    btnOpenLogin.addEventListener("click", async () => {
+        const { value: formValues } = await Swal.fire({
+            title: "Iniciar Sesión",
+            html: `
+                <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
+                <div style="position: relative; display: inline-block; width: 100%;">
+                    <input id="swal-password" class="swal2-input" placeholder="Contraseña" type="password" style="margin: 0 auto; width: 80%;">
+                    <button type="button" id="swal-toggle-pass" style="position: absolute; right: 10px; top: 15px; border: none; background: none; cursor: pointer;">👁️</button>
+                </div>
+            `,
+            focusConfirm: false,
+            didOpen: () => {
+                const toggleBtn = document.getElementById("swal-toggle-pass");
+                if (toggleBtn) {
+                    toggleBtn.addEventListener("click", () => {
+                        const passInput = document.getElementById("swal-password");
+                        if (passInput.type === "password") {
+                            passInput.type = "text";
+                            toggleBtn.textContent = "🙈";
+                        } else {
+                            passInput.type = "password";
+                            toggleBtn.textContent = "👁️";
+                        }
+                    });
+                }
+            },
+            preConfirm: () => {
+                const email = document.getElementById("swal-email").value;
+                const pass = document.getElementById("swal-password").value;
+                if (!email || !pass) {
+                    Swal.showValidationMessage("Por favor, ingrese email y contraseña");
+                }
+                return { email, pass };
+            }
+        });
 
-        if (user && pass) {
-            const resultado = AuthService.login(user, pass);
+        if (formValues) {
+            const resultado = AuthService.login(formValues.email, formValues.pass);
             if (resultado === "ok") {
-                mostrarToast("¡Sesión iniciada correctamente!");
+                Swal.fire("¡Bienvenido!", "Sesión iniciada correctamente.", "success");
                 
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
@@ -115,7 +179,7 @@ if (btnOpenLogin) {
                     btnLogout.style.display = "inline-block";
                 }
             } else {
-                mostrarToast("Error en las credenciales. Verifique los datos.");
+                Swal.fire("Error", "Credenciales incorrectas. Verifique los datos.", "error");
             }
         }
     });
@@ -168,14 +232,12 @@ if (btnComprar) {
     });
 }
 
-// Vaciar carro
+// Vaciar carrito
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
         miCarrito.vaciar();
         mostrarToast("El carrito se ha vaciado.");
-        
-        // Actualizamos la vista del carrito y el total a $0
         renderCarrito(
             document.getElementById("carrito-items"), 
             miCarrito.getItems(), 
