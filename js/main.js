@@ -210,7 +210,24 @@ if (btnOpenLogin) {
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
         AuthService.logout();
-        mostrarToast("Sesión cerrada.");
+
+        // Notificación pequeña tipo Toast de SweetAlert2
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Sesión cerrada'
+        });
         
         btnLogout.style.display = "none";
         if (btnOpenRegister) {
