@@ -66,44 +66,46 @@ export class Carrito {
         return this.items.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
     }
 
-    finalizarCompra(catalogoProductos) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                try {
-                    if (this.items.length === 0) {
-                        throw new Error("El carrito está vacío. Agregue productos antes de comprar.");
-                    }
-
-                    this.items.forEach(itemEnCarrito => {
-                        const productoReal = catalogoProductos.find(p => p.id === itemEnCarrito.id);
-                        if (!productoReal || !productoReal.tieneStock(itemEnCarrito.talle, itemEnCarrito.cantidad)) {
-                            throw new Error(`Stock insuficiente para el producto: ${itemEnCarrito.nombre} (Talle: ${itemEnCarrito.talle})`);
-                        }
-                    });
-
-                    const codigoPedido = `PED-${Date.now().toString().slice(-6)}`;
-                    const totalCompra = this.calcularTotal();
-
-                    const comprobante = {
-                        codigo: codigoPedido,
-                        productos: this.getItems(),
-                        total: totalCompra,
-                        fecha: new Date().toLocaleDateString()
-                    };
-
-                    this.vaciar();
-
-                    resolve({ 
-                        mensaje: `¡Compra procesada! Código: ${codigoPedido}`, 
-                        comprobante 
-                    });
-
-                } catch (error) {
-                    reject(error.message);
+finalizarCompra(catalogoProductos) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            try {
+                if (this.items.length === 0) {
+                    throw new Error("El carrito está vacío. Agregue productos antes de comprar.");
                 }
-            }, 2000);
-        });
-    }
+
+                this.items.forEach(itemEnCarrito => {
+                    const productoReal = catalogoProductos.find(p => p.id === itemEnCarrito.id);
+                    
+                    // Aseguramos la comparación correcta del stock
+                    if (!productoReal || productoReal.stock < itemEnCarrito.cantidad) {
+                        throw new Error(`Stock insuficiente para el producto: ${itemEnCarrito.nombre || itemEnCarrito.id}`);
+                    }
+                });
+
+                const codigoPedido = `PED-${Date.now().toString().slice(-6)}`;
+                const totalCompra = this.calcularTotal();
+
+                const comprobante = {
+                    codigo: codigoPedido,
+                    productos: this.getItems(),
+                    total: totalCompra,
+                    fecha: new Date().toLocaleDateString()
+                };
+
+                this.vaciar();
+
+                resolve({ 
+                    mensaje: `¡Compra procesada! Código de seguimiento: ${codigoPedido}`, 
+                    comprobante 
+                });
+
+            } catch (error) {
+                reject(error);
+            }
+        }, 2000);
+    });
+}
 
     vaciar() {
         this.items.length = 0;
