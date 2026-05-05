@@ -28,7 +28,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     miCarrito.calcularTotal()
                 );
             } else {
-                mostrarToast("No hay suficiente stock para la variante seleccionada.");
+                // Alerta de stock insuficiente
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No hay suficiente stock para la variante seleccionada.',
+                    confirmButtonColor: '#D4AF37'
+                });
             }
         };
 
@@ -209,39 +215,75 @@ if (btnLogout) {
     });
 }
 
-// Botón para finalizar compra
+// Botón para finalizar compra con alerta de confirmación
 const btnComprar = document.getElementById("btn-comprar");
 if (btnComprar) {
     btnComprar.addEventListener("click", async () => {
         const usuarioActual = LocalStorageService.obtener("usuario");
         
         if (!usuarioActual) {
-            mostrarToast("Debes iniciar sesión para finalizar la compra.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acción necesaria',
+                text: 'Debes iniciar sesión para finalizar la compra.',
+                confirmButtonColor: '#D4AF37'
+            });
             return;
         }
 
-        mostrarToast("Estamos procesando tu pedido, por favor espera...");
+        // Alerta de procesamiento
+        Swal.fire({
+            title: 'Procesando tu pedido',
+            text: 'Por favor, espera unos instantes...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         try {
             const resultado = await miCarrito.finalizarCompra(listaProductos);
-            mostrarToast(resultado.mensaje);
+            Swal.fire({
+                icon: 'success',
+                title: '¡Compra completada!',
+                text: resultado.mensaje,
+                confirmButtonColor: '#D4AF37'
+            });
             renderCarrito(document.getElementById("carrito-items"), miCarrito.getItems(), miCarrito.calcularTotal());
         } catch (error) {
-            mostrarToast("Error: " + error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en la compra',
+                text: error,
+                confirmButtonColor: '#D4AF37'
+            });
         }
     });
 }
 
-// Vaciar carrito
+// Vaciar carrito con confirmación
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
-        miCarrito.vaciar();
-        mostrarToast("El carrito se ha vaciado.");
-        renderCarrito(
-            document.getElementById("carrito-items"), 
-            miCarrito.getItems(), 
-            miCarrito.calcularTotal()
-        );
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esta acción.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#D4AF37',
+            cancelButtonColor: '#717171',
+            confirmButtonText: 'Sí, vaciar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                miCarrito.vaciar();
+                mostrarToast("El carrito se ha vaciado.");
+                renderCarrito(
+                    document.getElementById("carrito-items"), 
+                    miCarrito.getItems(), 
+                    miCarrito.calcularTotal()
+                );
+            }
+        });
     });
 }
