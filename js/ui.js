@@ -42,6 +42,12 @@ export function renderCarrito(container, carritoItems, total, onRemove) {
         const pEmpty = document.createElement("p");
         pEmpty.textContent = "El carrito está vacío.";
         container.appendChild(pEmpty);
+        
+        // Limpiamos el total cuando el carrito se vacía
+        const totalEl = document.getElementById("total");
+        if (totalEl) {
+            totalEl.textContent = "$0";
+        }
         return;
     }
 
@@ -50,16 +56,20 @@ export function renderCarrito(container, carritoItems, total, onRemove) {
         li.style.display = "flex";
         li.style.justifyContent = "space-between";
         li.style.alignItems = "center";
-        li.style.marginBottom = "0.5rem";
+        li.style.marginBottom = "0.75rem";
+        li.style.padding = "0.5rem";
+        li.style.borderBottom = "1px solid var(--border-color, #eee)";
 
+        // Botón sin la cruz, usando la clase del botón principal
         li.innerHTML = `
             <span>${item.nombre} (Talle: ${item.talle}) x${item.cantidad} - $${item.precio * item.cantidad}</span>
-            <button class="btn-eliminar-item" style="background-color: #ff4d4f; color: white; border: none; padding: 0.2rem 0.5rem; cursor: pointer; border-radius: 4px;">❌</button>
+            <button class="btn-principal btn-eliminar-item" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; cursor: pointer;">
+                Eliminar
+            </button>
         `;
 
         const btnEliminar = li.querySelector(".btn-eliminar-item");
         btnEliminar.addEventListener("click", () => {
-            // Llama a la función onRemove pasando el id y el talle
             onRemove(item.id, item.talle);
         });
 
