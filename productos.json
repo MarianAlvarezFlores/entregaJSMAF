@@ -4,9 +4,9 @@
         "nombre": "Abrigo Blanco",
         "precio": 65000,
         "variantes": [
-            { "talle": "S", "stock": 1 },
+            { "talle": "S", "stock": 5 },
             { "talle": "M", "stock": 2 },
-            { "talle": "L", "stock": 1 }
+            { "talle": "L", "stock": 3 }
         ],
         "categoria": "partes de arriba",
         "img": "./media/Abrigo_blanco.jpg"
@@ -41,7 +41,7 @@
         "precio": 28000,
         "variantes": [
             { "talle": "S", "stock": 4 },
-            { "talle": "M", "stock": 4 },
+            { "talle": "M", "stock": 6 },
             { "talle": "L", "stock": 4 }
         ],
         "categoria": "partes de abajo",
@@ -76,7 +76,7 @@
         "nombre": "Poncho Negro",
         "precio": 42000,
         "variantes": [
-            { "talle": "S", "stock": 1 },
+            { "talle": "S", "stock": 3 },
             { "talle": "M", "stock": 2 },
             { "talle": "L", "stock": 2 }
         ],
@@ -100,7 +100,7 @@
         "nombre": "Tapado Negro",
         "precio": 75000,
         "variantes": [
-            { "talle": "S", "stock": 1 },
+            { "talle": "S", "stock": 3 },
             { "talle": "M", "stock": 2 },
             { "talle": "L", "stock": 2 }
         ],
@@ -124,9 +124,9 @@
         "nombre": "Vestido drapeado midi",
         "precio": 120000,
         "variantes": [
-            { "talle": "S", "stock": 1 },
-            { "talle": "M", "stock": 1 },
-            { "talle": "L", "stock": 1 }
+            { "talle": "S", "stock": 2 },
+            { "talle": "M", "stock": 5 },
+            { "talle": "L", "stock": 6 }
         ],
         "categoria": "vestidos",
         "img": "./media/vestido_drapeado.jpg"
@@ -136,9 +136,9 @@
         "nombre": "Vestido irregular",
         "precio": 110000,
         "variantes": [
-            { "talle": "S", "stock": 1 },
+            { "talle": "S", "stock": 3 },
             { "talle": "M", "stock": 2 },
-            { "talle": "L", "stock": 1 }
+            { "talle": "L", "stock": 2 }
         ],
         "categoria": "vestidos",
         "img": "./media/vestido_irregular.jpg"
