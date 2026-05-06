@@ -35,7 +35,7 @@ export function renderProductos(container, productos, onAdd) {
     });
 }
 
-export function renderCarrito(container, carritoItems, total) {
+export function renderCarrito(container, carritoItems, total, onRemove) {
     container.innerHTML = "";
 
     if (carritoItems.length === 0) {
@@ -47,7 +47,22 @@ export function renderCarrito(container, carritoItems, total) {
 
     carritoItems.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${item.nombre} (Talle: ${item.talle}) x${item.cantidad} - $${item.precio * item.cantidad}`;
+        li.style.display = "flex";
+        li.style.justifyContent = "space-between";
+        li.style.alignItems = "center";
+        li.style.marginBottom = "0.5rem";
+
+        li.innerHTML = `
+            <span>${item.nombre} (Talle: ${item.talle}) x${item.cantidad} - $${item.precio * item.cantidad}</span>
+            <button class="btn-eliminar-item" style="background-color: #ff4d4f; color: white; border: none; padding: 0.2rem 0.5rem; cursor: pointer; border-radius: 4px;">❌</button>
+        `;
+
+        const btnEliminar = li.querySelector(".btn-eliminar-item");
+        btnEliminar.addEventListener("click", () => {
+            // Llama a la función onRemove pasando el id y el talle
+            onRemove(item.id, item.talle);
+        });
+
         container.appendChild(li);
     });
 

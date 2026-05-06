@@ -7,6 +7,18 @@ import { LocalStorageService } from "./storage.js";
 const miCarrito = new Carrito();
 let listaProductos = [];
 
+// Función para eliminar un producto del carrito desde la vista
+const eliminarDelCarrito = (id, talle) => {
+    miCarrito.eliminarProducto(id, talle, listaProductos);
+
+    renderCarrito(
+        document.getElementById("carrito-items"),
+        miCarrito.getItems(),
+        miCarrito.calcularTotal(),
+        eliminarDelCarrito
+    );
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const contenedorProductos = document.getElementById("contenedor-productos");
@@ -17,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-const agregarAlCarrito = (id, talle) => {
+        const agregarAlCarrito = (id, talle) => {
             // Validación: Verificar que se haya seleccionado un talle válido
             if (!talle || talle === "" || talle === "undefined") {
                 Swal.fire({
@@ -52,7 +64,8 @@ const agregarAlCarrito = (id, talle) => {
                 renderCarrito(
                     document.getElementById("carrito-items"), 
                     miCarrito.getItems(), 
-                    miCarrito.calcularTotal()
+                    miCarrito.calcularTotal(),
+                    eliminarDelCarrito
                 );
             } else {
                 Swal.fire({
@@ -221,7 +234,6 @@ if (btnLogout) {
     btnLogout.addEventListener("click", () => {
         AuthService.logout();
 
-        // Notificación pequeña tipo Toast de SweetAlert2
         const Toast = Swal.mixin({
             toast: true,
             position: 'bottom-end',
@@ -291,7 +303,12 @@ if (btnComprar) {
                 text: resultado.mensaje,
                 confirmButtonColor: '#D4AF37'
             });
-            renderCarrito(document.getElementById("carrito-items"), miCarrito.getItems(), miCarrito.calcularTotal());
+            renderCarrito(
+                document.getElementById("carrito-items"), 
+                miCarrito.getItems(), 
+                miCarrito.calcularTotal(),
+                eliminarDelCarrito
+            );
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -307,7 +324,6 @@ if (btnComprar) {
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
-        // 1. Verifico que e carrito esté efectivamente vacío
         if (miCarrito.getItems().length === 0) {
             Swal.fire({
                 icon: 'info',
@@ -315,10 +331,9 @@ if (btnVaciar) {
                 text: 'No hay productos en el carrito para vaciar.',
                 confirmButtonColor: '#D4AF37'
             });
-            return; 
+            return;
         }
 
-        // 2. Si tiene productos, mostramos la confirmación
         Swal.fire({
             title: '¿Estás seguro?',
             text: "No podrás revertir esta acción.",
@@ -332,7 +347,6 @@ if (btnVaciar) {
             if (result.isConfirmed) {
                 miCarrito.vaciar();
                 
-                //SweetAlert2
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'bottom-end',
@@ -353,7 +367,8 @@ if (btnVaciar) {
                 renderCarrito(
                     document.getElementById("carrito-items"), 
                     miCarrito.getItems(), 
-                    miCarrito.calcularTotal()
+                    miCarrito.calcularTotal(),
+                    eliminarDelCarrito
                 );
             }
         });

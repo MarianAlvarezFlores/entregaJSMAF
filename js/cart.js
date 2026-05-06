@@ -107,6 +107,25 @@ finalizarCompra(catalogoProductos) {
     });
 }
 
+eliminarProducto(id, talle, productos) {
+        const index = this.items.findIndex(p => p.id === id && p.talle === talle);
+
+        if (index !== -1) {
+            const itemAEliminar = this.items[index];
+
+            const prod = productos.find(p => p.id === id);
+            if (prod) {
+                const variante = prod.variantes.find(v => v.talle === itemAEliminar.talle);
+                if (variante) {
+                    variante.stock += itemAEliminar.cantidad;
+                }
+            }
+
+            this.items.splice(index, 1);
+            this.guardarCarrito();
+        }
+    }
+
     vaciar() {
         this.items.length = 0;
         this.guardarCarrito();
