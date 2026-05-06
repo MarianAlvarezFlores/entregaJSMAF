@@ -13,6 +13,7 @@ export function renderProductos(container, productos, onAdd) {
             <div class="selector-variante">
                 <label for="talle-${p.id}"><strong>Elegir Talle:</strong></label>
                 <select id="talle-${p.id}" class="form-select">
+                    <option value="" disabled selected>Elegir talle...</option>
                     ${p.variantes.map(v => `<option value="${v.talle}">Talle ${v.talle} (${v.stock} disp.)</option>`).join("")}
                 </select>
             </div>
@@ -22,8 +23,13 @@ export function renderProductos(container, productos, onAdd) {
         const boton = card.querySelector(".btn-add");
         boton.addEventListener("click", () => {
             const selectTalle = card.querySelector(`#talle-${p.id}`);
+            onAdd(p.id, selectTalle.value); // Nota: Llama a onAdd, que es la función que pasamos
             onAdd(p.id, selectTalle.value);
         });
+        
+        const Add = (id, talle) => {
+            onAdd(id, talle);
+        };
 
         container.appendChild(card);
     });

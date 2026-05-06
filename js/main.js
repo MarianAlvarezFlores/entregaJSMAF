@@ -17,11 +17,21 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        const agregarAlCarrito = (id, talle) => {
+const agregarAlCarrito = (id, talle) => {
+            // Validación: Verificar que se haya seleccionado un talle válido
+            if (!talle || talle === "" || talle === "undefined") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Falta seleccionar talle',
+                    text: 'Por favor, elige un talle antes de agregar el producto al carrito.',
+                    confirmButtonColor: '#D4AF37'
+                });
+                return;
+            }
+
             const agregado = miCarrito.agregar(id, listaProductos, talle);
             
             if (agregado) {
-                // Notificación pequeña tipo Toast de SweetAlert2
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'bottom-end',
