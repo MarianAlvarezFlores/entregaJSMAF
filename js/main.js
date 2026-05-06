@@ -22,6 +22,8 @@ const eliminarDelCarrito = (id, talle) => {
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const contenedorProductos = document.getElementById("contenedor-productos");
+        
+        // Intentamos obtener los productos
         listaProductos = await obtenerProductos();
 
         if (listaProductos.length === 0) {
@@ -103,9 +105,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (btnAbajo) btnAbajo.addEventListener("click", () => aplicarFiltro("partes de abajo"));
         if (btnVestidos) btnVestidos.addEventListener("click", () => aplicarFiltro("vestidos"));
 
-    } catch (error) {
-        console.error("Error al cargar la app:", error);
-        mostrarToast("Error al conectar con la base de datos de productos.");
+} catch (error) {
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de Carga',
+            text: 'No pudimos sincronizar el catálogo de productos. Por favor, intenta recargar la página.',
+            confirmButtonColor: '#D4AF37',
+            background: document.body.classList.contains('dark-mode') ? '#1a1a1a' : '#fff',
+            color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
+        });
     }
 });
 
