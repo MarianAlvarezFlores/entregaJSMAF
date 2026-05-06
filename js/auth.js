@@ -1,5 +1,5 @@
 import { LocalStorageService } from "./storage.js";
-import { Usuario } from "./models/Usuario.js";
+import { Usuario } from "./models/usuario.js";
 
 export const AuthService = {
     registrar(email, pass) {

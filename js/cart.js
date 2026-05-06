@@ -126,11 +126,10 @@ eliminarProducto(id, talle, productos) {
         }
     }
 
-    vaciar() {
-        this.items.length = 0;
-        this.guardarCarrito();
+    clear() {
+        this.items.length = 0; // Vacía el array actual
+        this.guardarCarrito(); // Lo borra del LocalStorage
     }
-
     getItems() {
         return [...this.items];
     }

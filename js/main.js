@@ -354,7 +354,8 @@ if (btnVaciar) {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                miCarrito.vaciar();
+                // CAMBIO CLAVE: Usamos .clear() que actualiza datos y LocalStorage
+                miCarrito.clear(); 
                 
                 const Toast = Swal.mixin({
                     toast: true,
@@ -373,10 +374,11 @@ if (btnVaciar) {
                     title: 'El carrito se ha vaciado'
                 });
 
+                // ACTUALIZACIÓN DEL DOM: Repintamos con el carrito ya vacío
                 renderCarrito(
                     document.getElementById("carrito-items"), 
-                    miCarrito.getItems(), 
-                    miCarrito.calcularTotal(),
+                    miCarrito.getItems(), // Esto ahora devolverá []
+                    miCarrito.calcularTotal(), // Esto ahora devolverá 0
                     eliminarDelCarrito
                 );
             }
