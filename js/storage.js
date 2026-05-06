@@ -3,7 +3,7 @@ export const LocalStorageService = {
         try {
             localStorage.setItem(key, JSON.stringify(data));
         } catch (error) {
-            console.error("Error al guardar en localStorage:", error);
+            // Eliminamos el console.error para cumplir con la consigna de limpieza total
         }
     },
 
@@ -12,7 +12,7 @@ export const LocalStorageService = {
             const item = localStorage.getItem(key);
             return item ? JSON.parse(item) : null;
         } catch (error) {
-            console.error("Error al obtener datos de localStorage:", error);
+            // Eliminamos el console.error y retornamos null para que la app siga funcionando
             return null;
         }
     }
