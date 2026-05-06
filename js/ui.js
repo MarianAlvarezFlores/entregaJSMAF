@@ -23,13 +23,9 @@ export function renderProductos(container, productos, onAdd) {
         const boton = card.querySelector(".btn-add");
         boton.addEventListener("click", () => {
             const selectTalle = card.querySelector(`#talle-${p.id}`);
-            onAdd(p.id, selectTalle.value); // Nota: Llama a onAdd, que es la función que pasamos
-            onAdd(p.id, selectTalle.value);
+            // Corregido: Llamamos una sola vez y eliminamos código muerto
+            onAdd(p.id, selectTalle.value); 
         });
-        
-        const Add = (id, talle) => {
-            onAdd(id, talle);
-        };
 
         container.appendChild(card);
     });
@@ -38,13 +34,13 @@ export function renderProductos(container, productos, onAdd) {
 export function renderCarrito(container, carritoItems, total, onRemove) {
     container.innerHTML = "";
 
+    const totalEl = document.getElementById("total");
+
     if (carritoItems.length === 0) {
         const pEmpty = document.createElement("p");
         pEmpty.textContent = "El carrito está vacío.";
         container.appendChild(pEmpty);
         
-        // Limpiamos el total cuando el carrito se vacía
-        const totalEl = document.getElementById("total");
         if (totalEl) {
             totalEl.textContent = "$0";
         }
@@ -53,17 +49,11 @@ export function renderCarrito(container, carritoItems, total, onRemove) {
 
     carritoItems.forEach(item => {
         const li = document.createElement("li");
-        li.style.display = "flex";
-        li.style.justifyContent = "space-between";
-        li.style.alignItems = "center";
-        li.style.marginBottom = "0.75rem";
-        li.style.padding = "0.5rem";
-        li.style.borderBottom = "1px solid var(--border-color, #eee)";
+        li.className = "item-carrito"; // Mejor usar clases que estilos inline para el CSS
 
-        // Botón sin la cruz, usando la clase del botón principal
         li.innerHTML = `
             <span>${item.nombre} (Talle: ${item.talle}) x${item.cantidad} - $${item.precio * item.cantidad}</span>
-            <button class="btn-principal btn-eliminar-item" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; cursor: pointer;">
+            <button class="btn-principal btn-eliminar-item">
                 Eliminar
             </button>
         `;
@@ -76,20 +66,20 @@ export function renderCarrito(container, carritoItems, total, onRemove) {
         container.appendChild(li);
     });
 
-    const totalEl = document.getElementById("total");
     if (totalEl) {
         totalEl.textContent = `$${total}`;
     }
 }
 
 export function mostrarToast(mensaje) {
+    // Usamos Toastify según tu código
     Toastify({
         text: mensaje,
         duration: 3000,
         gravity: "bottom",
         position: "right",
         style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            background: "linear-gradient(to right, #D4AF37, #000000)", // Cambié los colores para que peguen con tu estética dorada
         }
     }).showToast();
 }
