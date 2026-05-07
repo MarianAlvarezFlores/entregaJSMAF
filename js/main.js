@@ -3,14 +3,13 @@ import { AuthService } from "./auth.js";
 import { Carrito } from "./cart.js";
 import { renderProductos, renderCarrito, mostrarToast } from "./ui.js";
 import { LocalStorageService } from "./storage.js";
+import { SearchService } from "./search.js";
 
 const miCarrito = new Carrito();
 let listaProductos = [];
 
-// Función para eliminar un producto del carrito desde la vista
 const eliminarDelCarrito = (id, talle) => {
     miCarrito.eliminarProducto(id, talle, listaProductos);
-
     renderCarrito(
         document.getElementById("carrito-items"),
         miCarrito.getItems(),
@@ -22,8 +21,9 @@ const eliminarDelCarrito = (id, talle) => {
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const contenedorProductos = document.getElementById("contenedor-productos");
-        
-        // Intentamos obtener los productos
+        // 1. CAPTURAMOS EL INPUT DEL BUSCADOR
+        const inputBusqueda = document.getElementById("input-busqueda");
+
         listaProductos = await obtenerProductos();
 
         if (listaProductos.length === 0) {
@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         const agregarAlCarrito = (id, talle) => {
-            // Validación: Verificar que se haya seleccionado un talle válido
             if (!talle || talle === "" || talle === "undefined") {
                 Swal.fire({
                     icon: 'warning',
@@ -58,10 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
                 });
 
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Producto agregado al carrito'
-                });
+                Toast.fire({ icon: 'success', title: 'Producto agregado al carrito' });
 
                 renderCarrito(
                     document.getElementById("carrito-items"), 
@@ -78,11 +74,29 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             }
         };
+
+        // --- RENDERIZADO INICIAL ---
         if (contenedorProductos) {
             renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
         }
 
-        // Lógica de los filtros
+        // --- 2. LÓGICA DEL BUSCADOR POR PALABRA ---
+        if (inputBusqueda) {
+            inputBusqueda.addEventListener("input", (e) => {
+                const termino = e.target.value.toLowerCase().trim();
+                
+                // Filtramos la lista original por el nombre o la categoría
+                const filtrados = listaProductos.filter(p => 
+                    p.nombre.toLowerCase().includes(termino) || 
+                    p.categoria.toLowerCase().includes(termino)
+                );
+
+                // Volvemos a renderizar con los resultados del filtro
+                renderProductos(contenedorProductos, filtrados, agregarAlCarrito);
+            });
+        }
+
+        // Lógica de los filtros (Botones)
         const btnTodos = document.getElementById("btn-todos");
         const btnArriba = document.getElementById("btn-arriba");
         const btnAbajo = document.getElementById("btn-abajo");
@@ -90,6 +104,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const aplicarFiltro = (categoria) => {
             if (!contenedorProductos) return;
+            
+            // Limpiamos el buscador visualmente al tocar un botón de categoría
+            if (inputBusqueda) inputBusqueda.value = "";
 
             if (categoria === "todos") {
                 renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
@@ -104,15 +121,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (btnAbajo) btnAbajo.addEventListener("click", () => aplicarFiltro("partes de abajo"));
         if (btnVestidos) btnVestidos.addEventListener("click", () => aplicarFiltro("vestidos"));
 
-} catch (error) {
-        
+    } catch (error) {
+        console.error("Error en main.js:", error);
         Swal.fire({
             icon: 'error',
             title: 'Error de Carga',
-            text: 'No pudimos sincronizar el catálogo de productos. Por favor, intenta recargar la página.',
-            confirmButtonColor: '#D4AF37',
-            background: document.body.classList.contains('dark-mode') ? '#1a1a1a' : '#fff',
-            color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
+            text: 'No pudimos sincronizar el catálogo de productos.',
+            confirmButtonColor: '#D4AF37'
         });
     }
 });
