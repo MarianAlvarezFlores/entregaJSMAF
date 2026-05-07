@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             }
         };
-
         if (contenedorProductos) {
             renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
         }
