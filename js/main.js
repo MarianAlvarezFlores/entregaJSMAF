@@ -75,24 +75,72 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             }
         };
-// --- FUNCIÓN MANEJAR WISHLIST ---
-        const manejarWishlist = (id) => {
-            const resultado = WishlistService.toggle(id);
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 1500
-            });
-            Toast.fire({ icon: 'info', title: resultado.mensaje });
+// --- FUNCIÓN PARA MOSTRAR/OCULTAR LA SECCIÓN VIP ---
+const actualizarVistaWishlist = () => {
+    const seccionWishlist = document.getElementById("seccion-wishlist");
+    const contenedorWishlist = document.getElementById("contenedor-wishlist");
+    const usuarioLogueado = LocalStorageService.obtener("usuario");
 
-            // Re-renderizamos para actualizar el corazón (respetando la búsqueda actual)
-            const termino = inputBusqueda ? inputBusqueda.value.toLowerCase().trim() : "";
-            const filtrados = listaProductos.filter(p => 
-                p.nombre.toLowerCase().includes(termino) || p.categoria.toLowerCase().includes(termino)
-            );
-            renderProductos(contenedorProductos, filtrados, agregarAlCarrito, manejarWishlist);
-        };
+    if (usuarioLogueado && seccionWishlist) {
+        seccionWishlist.classList.remove("hidden");
+        const idsFavs = WishlistService.obtener();
+        const productosFavs = listaProductos.filter(p => idsFavs.includes(p.id));
+
+        if (productosFavs.length > 0) {
+            renderProductos(contenedorWishlist, productosFavs, agregarAlCarrito, manejarWishlist);
+        } else {
+            contenedorWishlist.innerHTML = "<p class='texto-vacio'>No tienes favoritos guardados aún.</p>";
+        }
+    } else if (seccionWishlist) {
+        seccionWishlist.classList.add("hidden");
+    }
+};
+
+// --- FUNCIÓN MANEJAR WISHLIST CON SWEET ALERT ---
+    const manejarWishlist = (id) => {
+        const usuarioLogueado = LocalStorageService.obtener("usuario");
+
+        // 1. SI NO ESTÁ LOGUEADO: Alerta restrictiva
+        if (!usuarioLogueado) {
+            Swal.fire({
+                title: 'ACCESO EXCLUSIVO',
+                text: 'Debes iniciar sesión para crear tu propia lista de deseos.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#D4AF37',
+                cancelButtonColor: '#000',
+                confirmButtonText: 'INICIAR SESIÓN',
+                cancelButtonText: 'LUEGO'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("btn-open-login").click();
+                }
+            });
+            return; 
+        }
+
+        // 2. SI ESTÁ LOGUEADO: Ejecutar toggle
+        const resultado = WishlistService.toggle(id);
+        
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 2000,
+            icon: 'success',
+            title: resultado.mensaje,
+            background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+            color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
+        });
+
+        // 3. ACTUALIZACIÓN VISUAL
+        // Volvemos a renderizar el catálogo para que cambie el corazón 🤍 -> ❤️
+        const filtrados = listaProductos.filter(p => /* tu lógica de búsqueda actual */ true);
+        renderProductos(document.getElementById("contenedor-productos"), filtrados, agregarAlCarrito, manejarWishlist);
+        
+        // Actualizamos la sección de arriba
+        actualizarVistaWishlist;
+    };
         // --- RENDERIZADO INICIAL ---
         if (contenedorProductos) {
             renderProductos(contenedorProductos, listaProductos, agregarAlCarrito, manejarWishlist);
@@ -264,6 +312,7 @@ if (btnOpenLogin) {
                 if (btnLogout) {
                     btnLogout.style.display = "inline-block";
                 }
+                actualizarVistaWishlist();
             } else {
                 Swal.fire("Error", "Credenciales incorrectas. Verifique los datos.", "error");
             }
@@ -300,6 +349,7 @@ if (btnLogout) {
             btnOpenLogin.style.display = "inline-block";
         }
 
+        // --- LIMPIEZA DE CARRITO ---
         const carritoItems = document.getElementById("carrito-items");
         if (carritoItems) {
             carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
@@ -308,6 +358,20 @@ if (btnLogout) {
         if (total) {
             total.textContent = "$0";
         }
+
+        // --- CAMBIOS PARA LA WISHLIST (NUEVO) ---
+        
+        // 1. Ocultamos la sección VIP de favoritos
+        actualizarVistaWishlist(); 
+
+        // 2. Refrescamos el catálogo principal
+        // Esto es clave: al no haber usuario, los corazones vuelven a 🤍
+        renderProductos(
+            document.getElementById("contenedor-productos"), 
+            listaProductos, 
+            agregarAlCarrito, 
+            manejarWishlist
+        );
     });
 }
 

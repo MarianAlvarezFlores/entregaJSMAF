@@ -1,50 +1,46 @@
 import { WishlistService } from "./wishlist.js";
+
 export function renderProductos(container, productos, onAdd, onWish) {
+    if (!container) return;
     container.innerHTML = "";
+
+    const favoritos = WishlistService.obtener();
 
     productos.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
+        const esFav = favoritos.includes(p.id);
 
-// Verificamos si el producto ya está en favoritos
-        const esFav = WishlistService.obtener().includes(p.id);
+    card.innerHTML = `
+                <div class="wishlist-badge">
+                    <button class="btn-wish" data-id="${p.id}">
+                        ${esFav ? '❤️' : '🤍'}
+                    </button>
+                </div>
+                <img src="${p.img}" alt="${p.nombre}" class="img-producto" />
+                <h3>${p.nombre}</h3>
+                <p class="precio">$${p.precio}</p>
+                <div class="selector-talle">
+                    <select id="talle-${p.id}" class="select-talle">
+                        <option value="" disabled selected>Elegir talle...</option>
+                        ${p.variantes.map(v => `<option value="${v.talle}">${v.talle}</option>`).join("")}
+                    </select>
+                </div>
+                <button class="btn-agregar btn-principal">AÑADIR AL CARRITO</button>
+            `;
 
-        card.innerHTML = `
-            <div class="wishlist-container" style="text-align: right; margin-bottom: -30px; position: relative; z-index: 10;">
-                <button class="btn-wish" data-id="${p.id}" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">
-                    ${esFav ? '❤️' : '🤍'}
-                </button>
-            </div>
-            <img src="${p.img}" alt="${p.nombre}" />
-            <h3>${p.nombre}</h3>
-            <p class="categoria-card">Categoría: ${p.categoria}</p>
-            <p>Precio: $${p.precio}</p>
-            <div class="selector-variante">
-                <label for="talle-${p.id}"><strong>Elegir Talle:</strong></label>
-                <select id="talle-${p.id}" class="form-select">
-                    <option value="" disabled selected>Elegir talle...</option>
-                    ${p.variantes.map(v => `<option value="${v.talle}">Talle ${v.talle} (${v.stock} disp.)</option>`).join("")}
-                </select>
-            </div>
-            <button class="btn-principal btn-add">Agregar al carrito</button>
-        `;
+            // Evento para el corazón
+            card.querySelector(".btn-wish").addEventListener("click", () => onWish(p.id));
 
-        // Lógica del botón de favoritos
-        const btnWish = card.querySelector(".btn-wish");
-        btnWish.addEventListener("click", () => {
-            onWish(p.id);
+            // Evento para el carrito
+            card.querySelector(".btn-agregar").addEventListener("click", () => {
+                const selectTalle = card.querySelector(`#talle-${p.id}`);
+                onAdd(p.id, selectTalle.value);
+            });
+
+            container.appendChild(card);
         });
-
-        // Lógica del botón de carrito
-        const boton = card.querySelector(".btn-add");
-        boton.addEventListener("click", () => {
-            const selectTalle = card.querySelector(`#talle-${p.id}`);
-            onAdd(p.id, selectTalle.value); 
-        });
-
-        container.appendChild(card);
-    });
-}
+    }
 
 export function renderCarrito(container, carritoItems, total, onRemove) {
     container.innerHTML = "";
