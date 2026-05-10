@@ -322,8 +322,10 @@ if (btnOpenLogin) {
 
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
+        // 1. Ejecutamos la lógica de cierre de sesión en el servicio
         AuthService.logout();
 
+        // 2. Notificación de éxito con SweetAlert
         const Toast = Swal.mixin({
             toast: true,
             position: 'bottom-end',
@@ -341,6 +343,7 @@ if (btnLogout) {
             title: 'Sesión cerrada'
         });
         
+        // 3. Control de visibilidad de botones de acceso
         btnLogout.style.display = "none";
         if (btnOpenRegister) {
             btnOpenRegister.style.display = "inline-block";
@@ -349,7 +352,7 @@ if (btnLogout) {
             btnOpenLogin.style.display = "inline-block";
         }
 
-        // --- LIMPIEZA DE CARRITO ---
+        // 4. Limpieza visual del Carrito
         const carritoItems = document.getElementById("carrito-items");
         if (carritoItems) {
             carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
@@ -359,19 +362,22 @@ if (btnLogout) {
             total.textContent = "$0";
         }
 
-        // --- CAMBIOS PARA LA WISHLIST (NUEVO) ---
+        // 5. CAMBIOS PARA LA WISHLIST (Punto 1 de la corrección)
         
-        // 1. Ocultamos la sección VIP de favoritos
+        // Ocultamos la sección VIP de favoritos inmediatamente
         actualizarVistaWishlist(); 
 
-        // 2. Refrescamos el catálogo principal
-        // Esto es clave: al no haber usuario, los corazones vuelven a 🤍
-        renderProductos(
-            document.getElementById("contenedor-productos"), 
-            listaProductos, 
-            agregarAlCarrito, 
-            manejarWishlist
-        );
+        // Refrescamos el catálogo principal: 
+        // Al no haber usuario logueado, renderProductos pintará todos los corazones vacíos (🤍)
+        const contenedorProductos = document.getElementById("contenedor-productos");
+        if (contenedorProductos) {
+            renderProductos(
+                contenedorProductos, 
+                listaProductos, 
+                agregarAlCarrito, 
+                manejarWishlist
+            );
+        }
     });
 }
 
