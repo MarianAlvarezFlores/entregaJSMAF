@@ -1,11 +1,20 @@
-export function renderProductos(container, productos, onAdd) {
+import { WishlistService } from "./wishlist.js";
+export function renderProductos(container, productos, onAdd, onWish) {
     container.innerHTML = "";
 
     productos.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
 
+// Verificamos si el producto ya está en favoritos
+        const esFav = WishlistService.obtener().includes(p.id);
+
         card.innerHTML = `
+            <div class="wishlist-container" style="text-align: right; margin-bottom: -30px; position: relative; z-index: 10;">
+                <button class="btn-wish" data-id="${p.id}" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">
+                    ${esFav ? '❤️' : '🤍'}
+                </button>
+            </div>
             <img src="${p.img}" alt="${p.nombre}" />
             <h3>${p.nombre}</h3>
             <p class="categoria-card">Categoría: ${p.categoria}</p>
@@ -20,10 +29,16 @@ export function renderProductos(container, productos, onAdd) {
             <button class="btn-principal btn-add">Agregar al carrito</button>
         `;
 
+        // Lógica del botón de favoritos
+        const btnWish = card.querySelector(".btn-wish");
+        btnWish.addEventListener("click", () => {
+            onWish(p.id);
+        });
+
+        // Lógica del botón de carrito
         const boton = card.querySelector(".btn-add");
         boton.addEventListener("click", () => {
             const selectTalle = card.querySelector(`#talle-${p.id}`);
-            // Corregido: Llamamos una sola vez y eliminamos código muerto
             onAdd(p.id, selectTalle.value); 
         });
 

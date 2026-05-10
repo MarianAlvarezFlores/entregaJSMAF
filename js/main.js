@@ -4,6 +4,7 @@ import { Carrito } from "./cart.js";
 import { renderProductos, renderCarrito, mostrarToast } from "./ui.js";
 import { LocalStorageService } from "./storage.js";
 import { SearchService } from "./search.js";
+import { WishlistService } from "./wishlist.js";
 
 const miCarrito = new Carrito();
 let listaProductos = [];
@@ -74,10 +75,27 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             }
         };
+// --- FUNCIÓN MANEJAR WISHLIST ---
+        const manejarWishlist = (id) => {
+            const resultado = WishlistService.toggle(id);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            Toast.fire({ icon: 'info', title: resultado.mensaje });
 
+            // Re-renderizamos para actualizar el corazón (respetando la búsqueda actual)
+            const termino = inputBusqueda ? inputBusqueda.value.toLowerCase().trim() : "";
+            const filtrados = listaProductos.filter(p => 
+                p.nombre.toLowerCase().includes(termino) || p.categoria.toLowerCase().includes(termino)
+            );
+            renderProductos(contenedorProductos, filtrados, agregarAlCarrito, manejarWishlist);
+        };
         // --- RENDERIZADO INICIAL ---
         if (contenedorProductos) {
-            renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
+            renderProductos(contenedorProductos, listaProductos, agregarAlCarrito, manejarWishlist);
         }
 
         // --- 2. LÓGICA DEL BUSCADOR POR PALABRA ---
@@ -92,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 );
 
                 // Volvemos a renderizar con los resultados del filtro
-                renderProductos(contenedorProductos, filtrados, agregarAlCarrito);
+                renderProductos(contenedorProductos, filtrados, agregarAlCarrito, manejarWishlist);
             });
         }
 
@@ -109,10 +127,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (inputBusqueda) inputBusqueda.value = "";
 
             if (categoria === "todos") {
-                renderProductos(contenedorProductos, listaProductos, agregarAlCarrito);
+                renderProductos(contenedorProductos, listaProductos, agregarAlCarrito, manejarWishlist);
             } else {
                 const filtrados = listaProductos.filter(p => p.categoria.toLowerCase() === categoria.toLowerCase());
-                renderProductos(contenedorProductos, filtrados, agregarAlCarrito);
+                renderProductos(contenedorProductos, filtrados, agregarAlCarrito, manejarWishlist);
             }
         };
 
