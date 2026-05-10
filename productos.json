@@ -166,5 +166,29 @@
         ],
         "categoria": "vestidos",
         "img": "./media/vestido_novia.jpg"
+    }, 
+    {
+        "id": 15,
+        "nombre": "Remera gris",
+        "precio": 30000,
+        "variantes": [
+            { "talle": "S", "stock": 6 },
+            { "talle": "M", "stock": 6 },
+            { "talle": "L", "stock": 8 }
+        ],
+        "categoria": "partes de arriba",
+        "img": "./media/remera_gris.jpg"
+    },
+    {
+        "id": 15,
+        "nombre": "Remera borgoña con cierre",
+        "precio": 35000,
+        "variantes": [
+            { "talle": "S", "stock": 6 },
+            { "talle": "M", "stock": 6 },
+            { "talle": "L", "stock": 8 }
+        ],
+        "categoria": "partes de arriba",
+        "img": "./media/remera_con_cierre.jpg"
     }
 ]
