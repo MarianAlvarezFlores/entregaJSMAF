@@ -11,23 +11,43 @@ export function renderProductos(container, productos, onAdd, onWish) {
         card.className = "card";
         const esFav = favoritos.includes(p.id);
 
-    card.innerHTML = `
-                <div class="wishlist-badge">
-                    <button class="btn-wish" data-id="${p.id}">
-                        ${esFav ? '❤️' : '🤍'}
-                    </button>
-                </div>
-                <img src="${p.img}" alt="${p.nombre}" class="img-producto" />
-                <h3>${p.nombre}</h3>
-                <p class="precio">$${p.precio}</p>
-                <div class="selector-talle">
-                    <select id="talle-${p.id}" class="select-talle">
-                        <option value="" disabled selected>Elegir talle...</option>
-                        ${p.variantes.map(v => `<option value="${v.talle}">${v.talle}</option>`).join("")}
-                    </select>
-                </div>
-                <button class="btn-agregar btn-principal">AÑADIR AL CARRITO</button>
-            `;
+card.innerHTML = `
+    <div class="wishlist-badge">
+        <button class="btn-wish" data-id="${p.id}">
+            ${esFav ? '❤️' : '🤍'}
+        </button>
+    </div>
+
+    <div class="img-card-container">
+        <img src="${p.img}" alt="${p.nombre}" class="img-producto" />
+    </div>
+
+    <div class="card-body">
+        <h3>${p.nombre}</h3>
+
+        <p class="precio">
+            $${p.precio.toLocaleString()}
+        </p>
+
+        <div class="selector-talle">
+            <select id="talle-${p.id}" class="select-talle">
+                <option value="" disabled selected>
+                    Elegir talle...
+                </option>
+
+                ${p.variantes.map(v => `
+                    <option value="${v.talle}">
+                        ${v.talle}
+                    </option>
+                `).join("")}
+            </select>
+        </div>
+
+        <button class="btn-agregar btn-principal">
+            Añadir al carrito
+        </button>
+    </div>
+`;
 
             // Evento para el corazón
             card.querySelector(".btn-wish").addEventListener("click", () => onWish(p.id));
@@ -90,7 +110,7 @@ export function mostrarToast(mensaje) {
         gravity: "bottom",
         position: "right",
         style: {
-            background: "linear-gradient(to right, #D4AF37, #000000)", // Cambié los colores para que peguen con tu estética dorada
+            background: "linear-gradient(to right, #D4AF37, #000000)", 
         }
     }).showToast();
 }

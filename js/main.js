@@ -171,7 +171,7 @@ const actualizarVistaWishlist = () => {
         const aplicarFiltro = (categoria) => {
             if (!contenedorProductos) return;
             
-            // Limpiamos el buscador visualmente al tocar un botón de categoría
+            // Limpio el
             if (inputBusqueda) inputBusqueda.value = "";
 
             if (categoria === "todos") {
@@ -362,7 +362,7 @@ if (btnLogout) {
             total.textContent = "$0";
         }
 
-        // 5. CAMBIOS PARA LA WISHLIST (Punto 1 de la corrección)
+        // 5. WISHLIST 
         
         // Ocultamos la sección VIP de favoritos inmediatamente
         actualizarVistaWishlist(); 
@@ -479,7 +479,7 @@ if (btnVaciar) {
                 
                 renderCarrito(
                     document.getElementById("carrito-items"), 
-                    miCarrito.getItems(), // Esto ahora devolverá []
+                    miCarrito.getItems(), 
                     miCarrito.calcularTotal(), // Esto ahora devolverá 0
                     eliminarDelCarrito
                 );
