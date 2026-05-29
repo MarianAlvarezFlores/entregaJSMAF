@@ -524,21 +524,32 @@ if (btnVaciar) {
 const btnCarrito = document.getElementById("btn-carrito");
 const btnCerrarCarrito = document.getElementById("btn-cerrar-carrito");
 const carrito = document.getElementById("carrito-seccion");
+const overlayCarrito = document.getElementById("overlay-carrito");
 
-if (btnCarrito && carrito) {
+if (btnCarrito && carrito && overlayCarrito) {
+
     btnCarrito.addEventListener("click", () => {
         carrito.classList.add("abierto");
+        overlayCarrito.classList.add("activo");
+    });
+
+    overlayCarrito.addEventListener("click", () => {
+        carrito.classList.remove("abierto");
+        overlayCarrito.classList.remove("activo");
     });
 }
 
-if (btnCerrarCarrito && carrito) {
+if (btnCerrarCarrito && carrito && overlayCarrito) {
+
     btnCerrarCarrito.addEventListener("click", () => {
         carrito.classList.remove("abierto");
+        overlayCarrito.classList.remove("activo");
     });
 }
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
         carrito.classList.remove("abierto");
+        overlayCarrito.classList.remove("activo");
     }
 });
