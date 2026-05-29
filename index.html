@@ -17,6 +17,10 @@
             <button id="btn-open-login">Iniciar Sesión</button>
             <button id="btn-logout" style="display: none;">Cerrar Sesión</button>
             <button id="btn-theme" title="Alternar modo oscuro">🌙</button>
+            <button id="btn-carrito" title="Ver carrito">
+    🛍️          <span id="contador-carrito">0</span>
+            </button>
+            
         </nav>
     </header>
 
@@ -50,7 +54,8 @@
             <div id="contenedor-productos" class="grid-productos"></div>
         </section>
 
-        <section id="carrito-seccion">
+        <aside id="carrito-seccion">
+            <button id="btn-cerrar-carrito">✕</button>
             <h2>Carrito</h2>
 
             <ul id="carrito-items">
@@ -66,7 +71,7 @@
                     Vaciar Carrito
                 </button>
             </div>
-        </section>
+        </aside>
 
     </main>
 

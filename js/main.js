@@ -521,3 +521,24 @@ if (btnVaciar) {
         });
     });
 }
+const btnCarrito = document.getElementById("btn-carrito");
+const btnCerrarCarrito = document.getElementById("btn-cerrar-carrito");
+const carrito = document.getElementById("carrito-seccion");
+
+if (btnCarrito && carrito) {
+    btnCarrito.addEventListener("click", () => {
+        carrito.classList.add("abierto");
+    });
+}
+
+if (btnCerrarCarrito && carrito) {
+    btnCerrarCarrito.addEventListener("click", () => {
+        carrito.classList.remove("abierto");
+    });
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        carrito.classList.remove("abierto");
+    }
+});
