@@ -11,58 +11,67 @@ export function renderProductos(container, productos, onAdd, onWish) {
         card.className = "card";
         const esFav = favoritos.includes(p.id);
 
-card.innerHTML = `
-    <div class="wishlist-badge">
-        <button class="btn-wish" data-id="${p.id}">
-            ${esFav ? '❤️' : '🤍'}
-        </button>
-    </div>
+        card.innerHTML = `
+            <div class="wishlist-badge">
+                <button class="btn-wish" data-id="${p.id}">
+                    ${esFav ? '❤️' : '🤍'}
+                </button>
+            </div>
 
-    <div class="img-card-container">
-        <img src="${p.img}" alt="${p.nombre}" class="img-producto" />
-    </div>
+            <div class="img-card-container">
+                <img src="${p.img}" alt="${p.nombre}" class="img-producto" />
+            </div>
 
-    <div class="card-body">
-        <h3>${p.nombre}</h3>
+            <div class="card-body">
+                <h3>${p.nombre}</h3>
 
-        <p class="precio">
-            $${p.precio.toLocaleString()}
-        </p>
+                <p class="precio">
+                    $${p.precio.toLocaleString()}
+                </p>
 
-        <div class="selector-talle">
-            <select id="talle-${p.id}" class="select-talle">
-                <option value="" disabled selected>
-                    Elegir talle...
-                </option>
+                <div class="selector-talle">
+                    <select id="talle-${p.id}" class="select-talle">
+                        <option value="" disabled selected>
+                            Elegir talle...
+                        </option>
 
-                ${p.variantes.map(v => `
-                    <option value="${v.talle}">
-                        ${v.talle}
-                    </option>
-                `).join("")}
-            </select>
-        </div>
+                        ${p.variantes.map(v => `
+                            <option value="${v.talle}">
+                                ${v.talle}
+                            </option>
+                        `).join("")}
+                    </select>
+                </div>
 
-        <button class="btn-agregar btn-principal">
-            Añadir al carrito
-        </button>
-    </div>
-`;
+                <button class="btn-agregar btn-principal">
+                    Añadir al carrito
+                </button>
+            </div>
+        `;
 
-            // Evento para el corazón
-            card.querySelector(".btn-wish").addEventListener("click", () => onWish(p.id));
-
-            // Evento para el carrito
-            card.querySelector(".btn-agregar").addEventListener("click", () => {
-                const selectTalle = card.querySelector(`#talle-${p.id}`);
-                onAdd(p.id, selectTalle.value);
-            });
-
-            container.appendChild(card);
+        // Evento para favoritos
+        card.querySelector(".btn-wish").addEventListener("click", () => {
+            onWish(p.id);
         });
-    }
 
-export function renderCarrito(container, carritoItems, total, onRemove) {
+        // Evento para carrito
+        card.querySelector(".btn-agregar").addEventListener("click", () => {
+            const selectTalle = card.querySelector(`#talle-${p.id}`);
+            onAdd(p.id, selectTalle.value);
+        });
+
+        container.appendChild(card);
+    });
+}
+
+export function renderCarrito(
+    container,
+    carritoItems,
+    total,
+    onRemove,
+    onPlus,
+    onMinus
+) {
     container.innerHTML = "";
 
     const totalEl = document.getElementById("total");
@@ -71,46 +80,72 @@ export function renderCarrito(container, carritoItems, total, onRemove) {
         const pEmpty = document.createElement("p");
         pEmpty.textContent = "El carrito está vacío.";
         container.appendChild(pEmpty);
-        
+
         if (totalEl) {
             totalEl.textContent = "$0";
         }
+
         return;
     }
 
     carritoItems.forEach(item => {
         const li = document.createElement("li");
-        li.className = "item-carrito"; // Mejor usar clases que estilos inline para el CSS
+        li.className = "item-carrito";
 
         li.innerHTML = `
-            <span>${item.nombre} (Talle: ${item.talle}) x${item.cantidad} - $${item.precio * item.cantidad}</span>
+            <span>
+                ${item.nombre} (Talle: ${item.talle})
+            </span>
+
+            <div class="controles-cantidad">
+                <button class="btn-menos">➖</button>
+
+                <span>${item.cantidad}</span>
+
+                <button class="btn-mas">➕</button>
+            </div>
+
+            <span>
+                $${(item.precio * item.cantidad).toLocaleString()}
+            </span>
+
             <button class="btn-principal btn-eliminar-item">
                 Eliminar
             </button>
         `;
 
         const btnEliminar = li.querySelector(".btn-eliminar-item");
+        const btnMas = li.querySelector(".btn-mas");
+        const btnMenos = li.querySelector(".btn-menos");
+
         btnEliminar.addEventListener("click", () => {
             onRemove(item.id, item.talle);
+        });
+
+        btnMas.addEventListener("click", () => {
+            onPlus(item.id, item.talle);
+        });
+
+        btnMenos.addEventListener("click", () => {
+            onMinus(item.id, item.talle);
         });
 
         container.appendChild(li);
     });
 
     if (totalEl) {
-        totalEl.textContent = `$${total}`;
+        totalEl.textContent = `$${total.toLocaleString()}`;
     }
 }
 
 export function mostrarToast(mensaje) {
-    // Usamos Toastify según tu código
     Toastify({
         text: mensaje,
         duration: 3000,
         gravity: "bottom",
         position: "right",
         style: {
-            background: "linear-gradient(to right, #D4AF37, #000000)", 
+            background: "linear-gradient(to right, #D4AF37, #000000)"
         }
     }).showToast();
 }

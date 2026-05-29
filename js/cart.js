@@ -7,13 +7,18 @@ export class Carrito {
 
     agregar(id, productos, talleSeleccionado = "M") {
         const prod = productos.find(p => p.id === id);
-        if (!prod) return false;
+
+        if (!prod) {
+            return false;
+        }
 
         if (!prod.tieneStock(talleSeleccionado, 1)) {
             return false;
         }
 
-        const existente = this.items.find(p => p.id === id && p.talle === talleSeleccionado);
+        const existente = this.items.find(
+            p => p.id === id && p.talle === talleSeleccionado
+        );
 
         if (existente) {
             existente.cantidad += 1;
@@ -25,115 +30,152 @@ export class Carrito {
             });
         }
 
-        this.guardarCarrito();
         prod.descontarStock(talleSeleccionado, 1);
+
+        this.guardarCarrito();
+
         return true;
     }
 
-    incrementarCantidad(id, productos) {
-        const existente = this.items.find(p => p.id === id);
-        if (existente) {
-            const prod = productos.find(p => p.id === id);
-            if (prod && prod.tieneStock(existente.talle, 1)) {
-                existente.cantidad += 1;
-                prod.descontarStock(existente.talle, 1);
-                this.guardarCarrito();
-            }
+    incrementarCantidad(id, talle, productos) {
+        const existente = this.items.find(
+            p => p.id === id && p.talle === talle
+        );
+
+        if (!existente) {
+            return;
         }
-    }
 
-    decrementarCantidad(id, productos) {
-        const existente = this.items.find(p => p.id === id);
-        if (existente) {
-            existente.cantidad -= 1;
+        const prod = productos.find(
+            p => p.id === id
+        );
 
-            const prod = productos.find(p => p.id === id);
-            if (prod) {
-                const variante = prod.variantes.find(v => v.talle === existente.talle);
-                if (variante) variante.stock += 1;
-            }
+        if (
+            prod &&
+            prod.tieneStock(talle, 1)
+        ) {
+            existente.cantidad += 1;
 
-            if (existente.cantidad <= 0) {
-                const index = this.items.indexOf(existente);
-                this.items.splice(index, 1);
-            }
+            prod.descontarStock(talle, 1);
 
             this.guardarCarrito();
         }
     }
 
-    calcularTotal() {
-        return this.items.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    decrementarCantidad(id, talle, productos) {
+        const existente = this.items.find(
+            p => p.id === id && p.talle === talle
+        );
+
+        if (!existente) {
+            return;
+        }
+
+        existente.cantidad -= 1;
+
+        const prod = productos.find(
+            p => p.id === id
+        );
+
+        if (prod) {
+            const variante = prod.variantes.find(
+                v => v.talle === talle
+            );
+
+            if (variante) {
+                variante.stock += 1;
+            }
+        }
+
+        if (existente.cantidad <= 0) {
+            this.items = this.items.filter(
+                p => !(p.id === id && p.talle === talle)
+            );
+        }
+
+        this.guardarCarrito();
     }
 
-finalizarCompra(catalogoProductos) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            try {
-                if (this.items.length === 0) {
-                    throw new Error("El carrito está vacío. Agregue productos antes de comprar.");
-                }
-
-                this.items.forEach(itemEnCarrito => {
-                    const productoReal = catalogoProductos.find(p => p.id === itemEnCarrito.id);
-                    
-                    // Aseguramos la comparación correcta del stock
-                    if (!productoReal || productoReal.stock < itemEnCarrito.cantidad) {
-                        throw new Error(`Stock insuficiente para el producto: ${itemEnCarrito.nombre || itemEnCarrito.id}`);
-                    }
-                });
-
-                const codigoPedido = `PED-${Date.now().toString().slice(-6)}`;
-                const totalCompra = this.calcularTotal();
-
-                const comprobante = {
-                    codigo: codigoPedido,
-                    productos: this.getItems(),
-                    total: totalCompra,
-                    fecha: new Date().toLocaleDateString()
-                };
-
-                this.vaciar();
-
-                resolve({ 
-                    mensaje: `¡Compra procesada! Código de seguimiento: ${codigoPedido}`, 
-                    comprobante 
-                });
-
-            } catch (error) {
-                reject(error);
-            }
-        }, 2000);
-    });
-}
-
-eliminarProducto(id, talle, productos) {
-        const index = this.items.findIndex(p => p.id === id && p.talle === talle);
+    eliminarProducto(id, talle, productos) {
+        const index = this.items.findIndex(
+            p => p.id === id && p.talle === talle
+        );
 
         if (index !== -1) {
             const itemAEliminar = this.items[index];
 
-            const prod = productos.find(p => p.id === id);
+            const prod = productos.find(
+                p => p.id === id
+            );
+
             if (prod) {
-                const variante = prod.variantes.find(v => v.talle === itemAEliminar.talle);
+                const variante = prod.variantes.find(
+                    v => v.talle === itemAEliminar.talle
+                );
+
                 if (variante) {
                     variante.stock += itemAEliminar.cantidad;
                 }
             }
 
             this.items.splice(index, 1);
+
             this.guardarCarrito();
         }
     }
 
-    // AGREGAMOS ESTO PARA QUE finalizarCompra NO FALLE:
+    calcularTotal() {
+        return this.items.reduce(
+            (acc, item) => acc + (item.precio * item.cantidad),
+            0
+        );
+    }
+
+    finalizarCompra(catalogoProductos) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                try {
+                    if (this.items.length === 0) {
+                        throw new Error(
+                            "El carrito está vacío. Agregue productos antes de comprar."
+                        );
+                    }
+
+                    const codigoPedido =
+                        `PED-${Date.now().toString().slice(-6)}`;
+
+                    const totalCompra =
+                        this.calcularTotal();
+
+                    const comprobante = {
+                        codigo: codigoPedido,
+                        productos: this.getItems(),
+                        total: totalCompra,
+                        fecha: new Date().toLocaleDateString()
+                    };
+
+                    this.vaciar();
+
+                    resolve({
+                        mensaje:
+                            `¡Compra procesada! Código de seguimiento: ${codigoPedido}`,
+                        comprobante
+                    });
+
+                } catch (error) {
+                    reject(error.message);
+                }
+            }, 2000);
+        });
+    }
+
     vaciar() {
         this.clear();
     }
 
     clear() {
-        this.items.length = 0; 
-        this.guardarCarrito(); 
+        this.items.length = 0;
+        this.guardarCarrito();
     }
 
     getItems() {
@@ -141,6 +183,9 @@ eliminarProducto(id, talle, productos) {
     }
 
     guardarCarrito() {
-        LocalStorageService.guardar("carrito", this.items);
+        LocalStorageService.guardar(
+            "carrito",
+            this.items
+        );
     }
 }

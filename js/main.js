@@ -15,7 +15,35 @@ const eliminarDelCarrito = (id, talle) => {
         document.getElementById("carrito-items"),
         miCarrito.getItems(),
         miCarrito.calcularTotal(),
-        eliminarDelCarrito
+        eliminarDelCarrito, 
+        aumentarCantidad, 
+        disminuirCantidad
+    );
+};
+
+const aumentarCantidad = (id, talle) => {
+    miCarrito.incrementarCantidad(id, talle, listaProductos);
+
+    renderCarrito(
+        document.getElementById("carrito-items"),
+        miCarrito.getItems(),
+        miCarrito.calcularTotal(),
+        eliminarDelCarrito,
+        aumentarCantidad,
+        disminuirCantidad
+    );
+};
+
+const disminuirCantidad = (id, talle) => {
+    miCarrito.decrementarCantidad(id, talle, listaProductos);
+
+    renderCarrito(
+        document.getElementById("carrito-items"),
+        miCarrito.getItems(),
+        miCarrito.calcularTotal(),
+        eliminarDelCarrito,
+        aumentarCantidad,
+        disminuirCantidad
     );
 };
 
@@ -60,12 +88,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 Toast.fire({ icon: 'success', title: 'Producto agregado al carrito' });
 
-                renderCarrito(
-                    document.getElementById("carrito-items"), 
-                    miCarrito.getItems(), 
-                    miCarrito.calcularTotal(),
-                    eliminarDelCarrito
-                );
+            renderCarrito(
+                document.getElementById("carrito-items"),
+                miCarrito.getItems(),
+                miCarrito.calcularTotal(),
+                eliminarDelCarrito,
+                aumentarCantidad,
+                disminuirCantidad
+            );
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -139,7 +169,7 @@ const actualizarVistaWishlist = () => {
         renderProductos(document.getElementById("contenedor-productos"), filtrados, agregarAlCarrito, manejarWishlist);
         
         // Actualizamos la sección de arriba
-        actualizarVistaWishlist;
+        actualizarVistaWishlist();
     };
         // --- RENDERIZADO INICIAL ---
         if (contenedorProductos) {
@@ -415,10 +445,12 @@ if (btnComprar) {
                 confirmButtonColor: '#D4AF37'
             });
             renderCarrito(
-                document.getElementById("carrito-items"), 
-                miCarrito.getItems(), 
+                document.getElementById("carrito-items"),
+                miCarrito.getItems(),
                 miCarrito.calcularTotal(),
-                eliminarDelCarrito
+                eliminarDelCarrito,
+                aumentarCantidad,
+                disminuirCantidad
             );
         } catch (error) {
             Swal.fire({
@@ -478,10 +510,12 @@ if (btnVaciar) {
 
                 
                 renderCarrito(
-                    document.getElementById("carrito-items"), 
-                    miCarrito.getItems(), 
-                    miCarrito.calcularTotal(), // Esto ahora devolverá 0
-                    eliminarDelCarrito
+                    document.getElementById("carrito-items"),
+                    miCarrito.getItems(),
+                    miCarrito.calcularTotal(),
+                    eliminarDelCarrito,
+                    aumentarCantidad,
+                    disminuirCantidad
                 );
             }
         });
