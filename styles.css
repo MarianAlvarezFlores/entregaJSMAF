@@ -67,8 +67,6 @@ nav button:hover {
     opacity: 0.6;
 }
 
-
-
 /* =========================
    MAIN
 ========================= */
@@ -316,6 +314,13 @@ h2 {
     margin-bottom: 2rem;
 }
 
+#cantidad-items {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
 /* =========================
    ITEMS
 ========================= */
@@ -387,7 +392,14 @@ h2 {
 ========================= */
 
 .carrito-footer {
-    margin-top: 2rem;
+    position: sticky;
+    bottom: 0;
+
+    background: #fdfdfc;
+
+    padding-top: 25px;
+
+    border-top: 1px solid var(--vb-linea);
 
     display: flex;
     flex-direction: column;

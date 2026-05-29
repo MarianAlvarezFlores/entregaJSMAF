@@ -75,8 +75,26 @@ export function renderCarrito(
     container.innerHTML = "";
 
     const totalEl = document.getElementById("total");
+    const cantidadItems = document.getElementById("cantidad-items");
 
+    // Actualizar cantidad de productos
+    if (cantidadItems) {
+        const totalProductos = carritoItems.reduce(
+            (total, item) => total + item.cantidad,
+            0
+        );
+
+        cantidadItems.textContent =
+            `${totalProductos} ITEM${totalProductos !== 1 ? "S" : ""}`;
+    }
+
+    // Carrito vacío
     if (carritoItems.length === 0) {
+
+        if (cantidadItems) {
+            cantidadItems.textContent = "0 ITEMS";
+        }
+
         const pEmpty = document.createElement("p");
         pEmpty.textContent = "El carrito está vacío.";
         container.appendChild(pEmpty);
