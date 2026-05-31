@@ -5,9 +5,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:wght@400&display=swap');
 
 :root {
-    --vb-fondo: #fdfdfc;
+    --vb-fondo: #fcfcfb;
     --vb-negro: #121212;
-    --vb-linea: #e8e8e8;
+    --vb-linea: #dddddd;
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Montserrat', sans-serif;
 }
@@ -223,12 +223,22 @@ h2 {
 
 #input-busqueda {
     width: 100%;
-    padding: 12px;
-    border: 1px solid var(--vb-linea);
-    background: transparent;
+    padding: 14px 16px;
+    border: 1px solid #d8d1c7;
+    background: #ffffff;
     font-size: 0.8rem;
     letter-spacing: 1px;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
     outline: none;
+}
+
+#input-busqueda:focus {
+    border-color: #b8ab99;
+
+    box-shadow:
+        0 0 0 3px rgba(184,171,153,0.12);
 }
 
 .filtros-container {
@@ -236,6 +246,17 @@ h2 {
     flex-wrap: wrap;
     gap: 12px;
     margin-bottom: 24px;
+}
+
+.filtros-container button {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.filtros-container button:hover {
+    transform: translateY(-2px);
 }
 
 /* =========================
@@ -282,7 +303,7 @@ h2 {
 .grid-productos {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 40px;
+    gap: 45px;
     align-items: stretch;
 }
 
@@ -293,13 +314,12 @@ h2 {
 .card {
     width: 100%;
     min-width: 0;
-
     display: flex;
     flex-direction: column;
     height: 100%;
     position: relative;
-    border: 1px solid var(--vb-linea);
-    background: #fff;
+    border: 1.5px solid #d8d1c7;
+    background: #faf8f4;
     overflow: hidden;
     transition:
         transform 0.35s ease,
@@ -357,7 +377,7 @@ h2 {
 }
 
 .card:hover .img-producto {
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 /* =========================
@@ -403,17 +423,20 @@ h2 {
 .btn-principal,
 .btn-secundario {
     border: none;
-    padding: 10px;
+    padding: 12px 10px;
     cursor: pointer;
     text-transform: uppercase;
     font-size: 0.65rem;
     letter-spacing: 2px;
-    transition: opacity 0.3s ease;
+    transition: 
+        opacity 0.3s ease,
+        transform 0.3 ease;
 }
 
 .btn-principal {
     background-color: var(--vb-negro);
     color: white;
+    font-weight: 500;
 }
 
 .btn-secundario {
@@ -424,7 +447,8 @@ h2 {
 
 .btn-principal:hover,
 .btn-secundario:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    transform: translateY(-2px);
 }
 
 /* =========================
@@ -441,20 +465,15 @@ h2 {
 .btn-wish {
     width: 42px;
     height: 42px;
-
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 50%;
-
-    background: rgba(255,255,255,0.95);
-
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
-    opacity: 0;
-
+    opacity: 1;
     transition:
         opacity 0.3s ease,
         transform 0.3s ease;
@@ -491,22 +510,14 @@ h2 {
     position: fixed;
     top: 0;
     right: -420px;
-
     width: 400px;
     height: 100vh;
-
     background: #fdfdfc;
-
     border-left: 1px solid var(--vb-linea);
-
     padding: 50px 35px;
-
     overflow-y: auto;
-
     transition: right 0.4s ease;
-
     z-index: 2000;
-
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
 }
 
@@ -742,9 +753,19 @@ h2 {
 
 .input-group input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid var(--vb-linea);
+    padding: 12px 14px;
+    border: 1px solid #d8d1c7;
+    background: #ffffff;
     outline: none;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #b8ab99;
+    box-shadow:
+        0 0 0 3px rgba(184,171,153,0.12);
 }
 
 /* =========================
@@ -752,9 +773,9 @@ h2 {
 ========================= */
 
 footer {
-    margin-top: 80px;
-    border-top: 1px solid var(--vb-linea);
-    padding: 35px 0;
+    margin-top: 100px;
+    border-top: 1px solid #d8d1c7;
+    padding: 45px 0;
 }
 
 .footer-container {
@@ -771,7 +792,7 @@ footer {
     font-weight: 400;
     letter-spacing: 3px;
     margin-bottom: 8px;
-
+    letter-spacing: 4px;
 }
 
 .footer-brand p,
