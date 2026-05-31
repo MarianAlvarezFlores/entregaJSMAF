@@ -33,38 +33,63 @@ header {
     width: 100%;
     padding: 40px 60px;
     border-bottom: 1px solid var(--vb-linea);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
 }
 
 header h1 {
     font-family: var(--font-serif);
-    font-size: 2.3rem;
-    letter-spacing: 8px;
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    letter-spacing: clamp(3px, 1vw, 8px);
     font-weight: 400;
+    white-space: nowrap;
 }
 
 nav {
+    width: 100%;
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 }
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+.nav-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-nav button {
     background: transparent;
     border: none;
+
+    cursor: pointer;
+
+    color: var(--vb-negro);
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+.nav-actions button:hover {
+    transform: translateY(-2px);
+    opacity: 0.7;
+}
+nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+
     font-family: var(--font-sans);
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 0.7rem;
-    cursor: pointer;
-    padding: 0;
 }
-
-nav button:hover {
-    opacity: 0.6;
+.nav-actions svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.5;
+    display: block;
 }
 
 /* =========================
@@ -419,26 +444,6 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* =========================
-   BOTÓN CARRITO HEADER
-========================= */
-
-#btn-carrito {
-    border: none;
-
-    background: transparent;
-
-    cursor: pointer;
-
-    font-size: 1.2rem;
-
-    transition: transform 0.3s ease;
-}
-
-#btn-carrito:hover {
-    transform: translateY(-2px);
-}
-
 #contador-carrito {
     font-size: 0.7rem;
 
@@ -550,29 +555,54 @@ footer {
    RESPONSIVE
 ========================= */
 
-@media (max-width: 850px) {
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 1023px) {
 
     .grid-productos {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    header {
+    nav {
         flex-direction: column;
-        align-items: flex-start;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .nav-actions {
+        justify-content: center;
     }
 }
 
-@media (max-width: 550px) {
+/* Mobile */
+
+@media (max-width: 767px) {
 
     .grid-productos {
         grid-template-columns: 1fr;
     }
 
-    .img-card-container {
-        height: 320px;
+    nav {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .nav-actions {
+        justify-content: center;
+    }
+
+    header {
+        padding: 25px 15px;
     }
 
     main {
         padding: 40px 15px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+        letter-spacing: 4px;
+        text-align: center;
     }
 }

@@ -7,22 +7,47 @@
 
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <h1>LÚMINA NOCTURNA</h1>
-            <button id="btn-open-register">Registrarse</button>
-            <button id="btn-open-login">Iniciar Sesión</button>
-            <button id="btn-logout" style="display: none;">Cerrar Sesión</button>
-            <button id="btn-theme" title="Alternar modo oscuro">🌙</button>
-            <button id="btn-carrito" title="Ver carrito">
-                🛍️
+<header>
+    <nav>
+
+    <h1>LÚMINA NOCTURNA</h1>
+
+        <div class="nav-actions">
+
+            <button id="btn-open-register">
+                Registrarse
             </button>
-            
-        </nav>
-    </header>
+
+            <button id="btn-open-login" title="Mi cuenta">
+                <i data-lucide="user"></i>
+            </button>
+
+            <button
+                id="btn-logout"
+                title="Cerrar sesión"
+                style="display:none;"
+            >
+                <i data-lucide="log-out"></i>
+            </button>
+
+            <button id="btn-theme" title="Modo oscuro">
+                <i data-lucide="moon"></i>
+            </button>
+
+            <button id="btn-carrito" title="Carrito">
+                <i data-lucide="shopping-bag"></i>
+            </button>
+
+    </div>
+
+</nav>
+
+</header>
+
 
     <main>
 
@@ -32,6 +57,8 @@
             </div>
             <div id="contenedor-wishlist"></div>
         </section>
+
+
 
         <section id="productos-seccion">
             <h2>Catálogo de Productos</h2>
@@ -135,9 +162,15 @@
         src="https://cdn.jsdelivr.net/npm/toastify-js">
     </script>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+    });
+    </script>
     <script type="module" src="js/main.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
 </body>
 </html>
