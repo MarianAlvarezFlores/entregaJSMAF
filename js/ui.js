@@ -23,29 +23,41 @@ export function renderProductos(container, productos, onAdd, onWish) {
             </div>
 
             <div class="card-body">
-                <h3>${p.nombre}</h3>
 
-                <p class="precio">
-                    $${p.precio.toLocaleString()}
-                </p>
+                <div class="card-info">
 
-                <div class="selector-talle">
-                    <select id="talle-${p.id}" class="select-talle">
-                        <option value="" disabled selected>
-                            Elegir talle...
-                        </option>
+                    <h3>${p.nombre}</h3>
 
-                        ${p.variantes.map(v => `
-                            <option value="${v.talle}">
-                                ${v.talle}
-                            </option>
-                        `).join("")}
-                    </select>
+                    <p class="precio">
+                        $${p.precio.toLocaleString()}
+                    </p>
+
                 </div>
 
-                <button class="btn-agregar btn-principal">
-                    Añadir al carrito
-                </button>
+                <div class="card-actions">
+
+                    <div class="selector-talle">
+
+                        <select id="talle-${p.id}" class="select-talle">
+                            <option value="" disabled selected>
+                                Elegir talle...
+                            </option>
+
+                            ${p.variantes.map(v => `
+                                <option value="${v.talle}">
+                                    ${v.talle}
+                                </option>
+                            `).join("")}
+                        </select>
+
+                    </div>
+
+                    <button class="btn-agregar btn-principal">
+                        Añadir al carrito
+                    </button>
+
+                </div>
+
             </div>
         `;
 

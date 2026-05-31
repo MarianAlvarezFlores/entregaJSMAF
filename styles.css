@@ -200,6 +200,19 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.card-actions {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 }
 
