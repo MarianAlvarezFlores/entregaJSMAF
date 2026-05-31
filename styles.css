@@ -29,9 +29,20 @@ body {
    HEADER
 ========================= */
 
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo-container {
+    flex-shrink: 0;
+}
+
 header {
     width: 100%;
-    padding: 40px 60px;
+    padding: 40px 0;
     border-bottom: 1px solid var(--vb-linea);
 }
 
@@ -40,7 +51,6 @@ header h1 {
     font-size: clamp(1.5rem, 4vw, 2.3rem);
     letter-spacing: clamp(3px, 1vw, 8px);
     font-weight: 400;
-    white-space: nowrap;
 }
 
 nav {
@@ -49,11 +59,13 @@ nav {
     justify-content: space-between;
     align-items: center;
 }
+
 .nav-actions {
     display: flex;
     align-items: center;
     gap: 28px;
 }
+
 .nav-actions button {
     display: flex;
     align-items: center;
@@ -70,10 +82,12 @@ nav {
         transform 0.25s ease,
         opacity 0.25s ease;
 }
+
 .nav-actions button:hover {
     transform: translateY(-2px);
     opacity: 0.7;
 }
+
 nav button {
     background: none;
     border: none;
@@ -85,6 +99,7 @@ nav button {
     letter-spacing: 2px;
     font-size: 0.7rem;
 }
+
 .nav-actions svg {
     width: 22px;
     height: 22px;
