@@ -182,7 +182,7 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 40px;
-    align-items: start;
+    align-items: stretch;
 }
 
 /* =========================
@@ -195,12 +195,11 @@ h2 {
 
     display: flex;
     flex-direction: column;
-
+    height: 100%;
     position: relative;
-
     border: 1px solid var(--vb-linea);
     background: #fff;
-
+    overflow: hidden;
     transition:
         transform 0.35s ease,
         box-shadow 0.35s ease,
@@ -219,15 +218,13 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
     flex-grow: 1;
-    padding: 20px;
+    padding: 24px;
 }
 
 .card-info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    min-height: 80px;
 }
 
 .card-actions {
@@ -341,19 +338,48 @@ h2 {
 }
 
 .btn-wish {
-    border: none;
-    background: rgba(255,255,255,0.95);
     width: 42px;
     height: 42px;
+
+    border: 1px solid rgba(0,0,0,0.08);
     border-radius: 50%;
+
+    background: rgba(255,255,255,0.95);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
 
     opacity: 0;
-    transition: 0.3s;
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .card:hover .btn-wish {
     opacity: 1;
+}
+
+.btn-wish:hover {
+    transform: scale(1.08);
+}
+
+.icono-favorito {
+    width: 18px;
+    height: 18px;
+
+    stroke-width: 1.7;
+
+    color: var(--vb-negro);
+
+    transition: all 0.3s ease;
+}
+
+.icono-favorito.activo {
+    fill: var(--vb-negro);
 }
 
 /* =========================

@@ -14,7 +14,10 @@ export function renderProductos(container, productos, onAdd, onWish) {
         card.innerHTML = `
             <div class="wishlist-badge">
                 <button class="btn-wish" data-id="${p.id}">
-                    ${esFav ? '❤️' : '🤍'}
+                    <i
+                        data-lucide="heart"
+                        class="icono-favorito ${esFav ? 'activo' : ''}"
+                    ></i>
                 </button>
             </div>
 
@@ -74,6 +77,7 @@ export function renderProductos(container, productos, onAdd, onWish) {
 
         container.appendChild(card);
     });
+    lucide.createIcons();
 }
 
 export function renderCarrito(
