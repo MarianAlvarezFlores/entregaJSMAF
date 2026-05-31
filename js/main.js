@@ -107,22 +107,40 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 // --- FUNCIÓN PARA MOSTRAR/OCULTAR LA SECCIÓN VIP ---
 const actualizarVistaWishlist = () => {
+
     const seccionWishlist = document.getElementById("seccion-wishlist");
     const contenedorWishlist = document.getElementById("contenedor-wishlist");
     const usuarioLogueado = LocalStorageService.obtener("usuario");
 
     if (usuarioLogueado && seccionWishlist) {
-        seccionWishlist.classList.remove("hidden");
+
         const idsFavs = WishlistService.obtener();
-        const productosFavs = listaProductos.filter(p => idsFavs.includes(p.id));
+
+        const productosFavs = listaProductos.filter(
+            p => idsFavs.includes(p.id)
+        );
 
         if (productosFavs.length > 0) {
-            renderProductos(contenedorWishlist, productosFavs, agregarAlCarrito, manejarWishlist);
+
+            seccionWishlist.classList.remove("hidden");
+
+            renderProductos(
+                contenedorWishlist,
+                productosFavs,
+                agregarAlCarrito,
+                manejarWishlist
+            );
+
         } else {
-            contenedorWishlist.innerHTML = "<p class='texto-vacio'>No tienes favoritos guardados aún.</p>";
+
+            seccionWishlist.classList.add("hidden");
+
         }
+
     } else if (seccionWishlist) {
+
         seccionWishlist.classList.add("hidden");
+
     }
 };
 

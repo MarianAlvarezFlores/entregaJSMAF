@@ -170,6 +170,23 @@ h2 {
     margin-bottom: 30px;
 }
 
+#seccion-wishlist {
+    margin-top: 80px;
+    padding-top: 50px;
+    border-top: 1px solid var(--vb-linea);
+}
+
+.texto-vacio {
+    text-align: center;
+    color: #777;
+    padding: 30px 0;
+    font-size: 0.9rem;
+}
+
+.hidden {
+    display: none;
+}
+
 .carrito-header {
     margin-bottom: 30px;
 }
@@ -651,12 +668,35 @@ h2 {
 ========================= */
 
 footer {
-    margin-top: 5rem;
-    padding: 30px 20px;
-    text-align: center;
+    margin-top: 80px;
     border-top: 1px solid var(--vb-linea);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
+    padding: 35px 0;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.footer-brand h3 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+
+}
+
+.footer-brand p,
+.footer-copy p {
+    font-size: 0.75rem;
+    color: #777;
+    letter-spacing: 1px;
+
+
 }
 
 /* =========================
@@ -712,5 +752,9 @@ footer {
         font-size: 1.8rem;
         letter-spacing: 4px;
         text-align: center;
+    }
+    .footer-container {
+    flex-direction: column;
+    text-align: center;
     }
 }
