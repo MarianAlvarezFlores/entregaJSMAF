@@ -319,9 +319,9 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    flex-grow: 1;
+    gap: 14px;
     padding: 16px;
+    flex-grow: 1;   
 }
 
 .card-info {
@@ -367,15 +367,15 @@ h2 {
 .card h3 {
     font-family: var(--font-serif);
     text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 2px;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
     margin-bottom: 8px;
     font-weight: 400;
 }
 
 .precio {
-    font-size: 0.75rem;
-    color: #777;
+    font-size: 0.72rem;
+    color: #737373;
     letter-spacing: 1px;
     margin-bottom: 8px;
 }
@@ -403,7 +403,7 @@ h2 {
 .btn-principal,
 .btn-secundario {
     border: none;
-    padding: 12px;
+    padding: 10px;
     cursor: pointer;
     text-transform: uppercase;
     font-size: 0.65rem;
