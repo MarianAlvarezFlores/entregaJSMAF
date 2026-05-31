@@ -55,59 +55,107 @@
 
 </header>
 
+<main>
 
-    <main>
+    <div class="main-container">
 
         <section id="seccion-wishlist">
+
             <div class="wishlist-header">
                 <h2>Mis Favoritos</h2>
             </div>
+
             <div id="contenedor-wishlist"></div>
+
         </section>
-
-
 
         <section id="productos-seccion">
-            <h2>Catálogo de Productos</h2>
 
-            <div class="search-container">
-                <input
-                    type="text"
-                    id="input-busqueda"
-                    placeholder="BUSCAR POR NOMBRE O CATEGORÍA..."
-                >
+            <div class="productos-header">
+
+                <h2>Catálogo de Productos</h2>
+
+                <div class="search-container">
+                    <input
+                        type="text"
+                        id="input-busqueda"
+                        placeholder="BUSCAR POR NOMBRE O CATEGORÍA..."
+                    >
+                </div>
+
+                <div class="filtros-container">
+                    <button id="btn-todos" class="btn-principal">
+                        Todos
+                    </button>
+
+                    <button id="btn-arriba" class="btn-secundario">
+                        Partes de arriba
+                    </button>
+
+                    <button id="btn-abajo" class="btn-secundario">
+                        Partes de abajo
+                    </button>
+
+                    <button id="btn-vestidos" class="btn-secundario">
+                        Vestidos
+                    </button>
+                </div>
+
             </div>
 
-            <div class="filtros-container">
-                <button id="btn-todos" class="btn-principal">Todos</button>
-                <button id="btn-arriba" class="btn-secundario">Partes de arriba</button>
-                <button id="btn-abajo" class="btn-secundario">Partes de abajo</button>
-                <button id="btn-vestidos" class="btn-secundario">Vestidos</button>
+            <div
+                id="contenedor-productos"
+                class="grid-productos">
             </div>
 
-            <div id="contenedor-productos" class="grid-productos"></div>
         </section>
 
-        <aside id="carrito-seccion">
-            <button id="btn-cerrar-carrito">✕</button>
+    </div>
+
+    <aside id="carrito-seccion">
+
+        <button id="btn-cerrar-carrito">✕</button>
+
+        <div class="carrito-header">
+
             <h2>Shopping bag</h2>
-            <p id="cantidad-items">0 ITEMS</p>
-            <ul id="carrito-items">
-                <p>El carrito está vacío.</p>
-            </ul>
 
-            <div class="carrito-footer">
-                <p>Total: <span id="total">$0</span></p>
-                <button id="btn-comprar" class="btn-principal">
-                    Finalizar Compra
-                </button>
-                <button id="btn-vaciar" class="btn-secundario">
-                    Vaciar Carrito
-                </button>
-            </div>
-        </aside>
+            <p id="cantidad-items">
+                0 ITEMS
+            </p>
 
-    </main>
+        </div>
+
+        <ul id="carrito-items">
+            <p>El carrito está vacío.</p>
+        </ul>
+
+        <div class="carrito-footer">
+
+            <p>
+                Total:
+                <span id="total">$0</span>
+            </p>
+
+            <button
+                id="btn-comprar"
+                class="btn-principal"
+            >
+                Finalizar Compra
+            </button>
+
+            <button
+                id="btn-vaciar"
+                class="btn-secundario"
+            >
+                Vaciar Carrito
+            </button>
+
+        </div>
+
+    </aside>
+
+</main>
     <div id="overlay-carrito"></div>
     <div id="auth-modal" class="modal" style="display: none;">
         <div class="modal-content">
