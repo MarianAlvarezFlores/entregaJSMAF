@@ -235,7 +235,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 28px;
 }
 
 /* =========================
@@ -315,13 +315,13 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
     flex-grow: 1;
-    padding: 24px;
+    padding: 16px;
 }
 
 .card-info {
-    min-height: 80px;
+    min-height: 55px;
 }
 
 .card-actions {
@@ -337,7 +337,7 @@ h2 {
 
 .img-card-container {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 3 / 3.8;
     overflow: hidden;
     background: #f7f7f7;
     border-bottom: 1px solid var(--vb-linea);
@@ -373,7 +373,7 @@ h2 {
     font-size: 0.75rem;
     color: #777;
     letter-spacing: 1px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 /* =========================
@@ -386,7 +386,7 @@ h2 {
     border-bottom: 1px solid var(--vb-negro);
     background: transparent;
     padding: 10px 0;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     font-size: 0.7rem;
     text-transform: uppercase;
     outline: none;
