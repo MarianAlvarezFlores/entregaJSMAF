@@ -42,13 +42,13 @@ body {
 
 header {
     width: 100%;
-    padding: 40px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--vb-linea);
 }
 
 header h1 {
     font-family: var(--font-serif);
-    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
     letter-spacing: clamp(3px, 1vw, 8px);
     font-weight: 400;
 }
@@ -110,7 +110,7 @@ nav button {
 .hero {
     position: relative;
     width: 100%;
-    height: 50vh;
+    height: 45vh;
     min-height: 380px;
     max-height: 550px;
     overflow: hidden;
@@ -198,7 +198,7 @@ main {
 .main-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 20px 20px 40px;
 }
 
 /* =========================
@@ -218,12 +218,12 @@ h2 {
 ========================= */
 
 .search-container {
-    margin-bottom: 2rem;
+    margin-bottom: 28px;
 }
 
 #input-busqueda {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border: 1px solid var(--vb-linea);
     background: transparent;
     font-size: 0.8rem;
@@ -235,7 +235,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 /* =========================
@@ -243,7 +243,11 @@ h2 {
 ========================= */
 
 .productos-header {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
+}
+
+.productos-header h2 {
+    margin-bottom: 18px;
 }
 
 .wishlist-header {
