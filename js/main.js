@@ -571,3 +571,43 @@ document.addEventListener("keydown", (e) => {
         overlayCarrito.classList.remove("activo");
     }
 });
+
+// =========================
+// VIDEO CAMPAÑA
+// =========================
+
+const btnVerCampania = document.getElementById("btn-ver-campania");
+const videoModal = document.getElementById("video-modal");
+const cerrarVideo = document.getElementById("cerrar-video");
+const videoCampania = document.getElementById("video-campania");
+
+if (
+    btnVerCampania &&
+    videoModal &&
+    cerrarVideo &&
+    videoCampania
+) {
+
+    btnVerCampania.addEventListener("click", () => {
+        videoModal.classList.add("activo");
+        videoCampania.play();
+    });
+
+    cerrarVideo.addEventListener("click", () => {
+        videoModal.classList.remove("activo");
+
+        videoCampania.pause();
+        videoCampania.currentTime = 0;
+    });
+
+    videoModal.addEventListener("click", (e) => {
+
+        if (e.target === videoModal) {
+
+            videoModal.classList.remove("activo");
+
+            videoCampania.pause();
+            videoCampania.currentTime = 0;
+        }
+    });
+}
