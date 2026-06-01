@@ -652,4 +652,15 @@ if (
             videoCampania.currentTime = 0;
         }
     });
+
+    // =========================
+    // AUTO CIERRE AL TERMINAR
+    // =========================
+
+    videoCampania.addEventListener("ended", () => {
+        videoModal.classList.remove("activo");
+
+        videoCampania.pause();
+        videoCampania.currentTime = 0;
+    });
 }
