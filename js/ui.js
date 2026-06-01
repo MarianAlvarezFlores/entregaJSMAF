@@ -173,13 +173,25 @@ export function renderCarrito(
 }
 
 export function mostrarToast(mensaje) {
+
     Toastify({
+
         text: mensaje,
-        duration: 3000,
+
+        duration: 2500,
+
         gravity: "bottom",
+
         position: "right",
+
+        stopOnFocus: true,
+
         style: {
-            background: "linear-gradient(to right, #D4AF37, #000000)"
+            background: "#121212",
+            color: "#ffffff",
+            border: "1px solid #d8d1c7",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.15)"
         }
+
     }).showToast();
 }

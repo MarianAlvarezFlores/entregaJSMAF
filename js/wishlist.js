@@ -5,7 +5,7 @@ export const WishlistService = {
     _getClave() {
         const usuario = LocalStorageService.obtener("usuario");
         // Si no hay usuario, devolvemos una clave genérica o null
-        return usuario ? `wishlist_${usuario.email}` : null;
+        return usuario ? `wishlist_${usuario}` : null;
     },
 
     obtener() {

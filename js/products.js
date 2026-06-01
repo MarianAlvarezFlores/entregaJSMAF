@@ -60,7 +60,6 @@ export const obtenerProductos = async () => {
         ));
         
     } catch (error) {
-            // En lugar de imprimir en consola, lanzamos el error hacia quien llamó a la función
             throw error;
     }
 };
