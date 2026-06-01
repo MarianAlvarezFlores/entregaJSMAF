@@ -17,41 +17,54 @@
 
     <div class="container">
 
-        <nav>
+<nav>
 
-            <div class="logo-container">
-                <h1>LÚMINA NOCTURNA</h1>
-            </div>
+    <!-- BUSCADOR (IZQUIERDA) -->
+    <div class="nav-left">
 
-            <div class="nav-actions">
+            <input
+                type="text"
+                id="input-busqueda"
+                placeholder="BUSCAR POR NOMBRE O CATEGORÍA..."
+            >
 
-                <button id="btn-open-register">
-                    Registrarse
-                </button>
+    </div>
 
-                <button id="btn-open-login" title="Mi cuenta">
-                    <i data-lucide="user"></i>
-                </button>
+    <!-- LOGO (CENTRO) -->
+    <div class="logo-container">
+        <h1>LÚMINA NOCTURNA</h1>
+    </div>
 
-                <button
-                    id="btn-logout"
-                    title="Cerrar sesión"
-                    style="display:none;"
-                >
-                    <i data-lucide="log-out"></i>
-                </button>
+    <!-- ACCIONES (DERECHA) -->
+    <div class="nav-actions">
 
-                <button id="btn-theme" title="Modo oscuro">
-                    <i data-lucide="moon"></i>
-                </button>
+        <button id="btn-open-register">
+            Registrarse
+        </button>
 
-                <button id="btn-carrito" title="Carrito">
-                    <i data-lucide="shopping-bag"></i>
-                </button>
+        <button id="btn-open-login" title="Mi cuenta">
+            <i data-lucide="user"></i>
+        </button>
 
-            </div>
+        <button
+            id="btn-logout"
+            title="Cerrar sesión"
+            style="display:none;"
+        >
+            <i data-lucide="log-out"></i>
+        </button>
 
-        </nav>
+        <button id="btn-theme" title="Modo oscuro">
+            <i data-lucide="moon"></i>
+        </button>
+
+        <button id="btn-carrito" title="Carrito">
+            <i data-lucide="shopping-bag"></i>
+        </button>
+
+    </div>
+
+</nav>
 
     </div>
 
@@ -87,14 +100,6 @@
             <div class="productos-header">
 
                 <h2>Colección 2026</h2>
-
-                <div class="search-container">
-                    <input
-                        type="text"
-                        id="input-busqueda"
-                        placeholder="BUSCAR POR NOMBRE O CATEGORÍA..."
-                    >
-                </div>
 
                 <div class="filtros-container">
                     <button id="btn-todos" class="btn-principal">
