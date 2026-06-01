@@ -60,6 +60,7 @@ export const obtenerProductos = async () => {
         ));
         
     } catch (error) {
+
             throw error;
     }
 };

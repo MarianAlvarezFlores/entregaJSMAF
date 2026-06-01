@@ -462,6 +462,7 @@ if (btnLogout) {
        document.dispatchEvent(
         new CustomEvent("lumina-auth-change")
         );
+
         // Refrescamos el catálogo principal: 
         // Al no haber usuario logueado, renderProductos pintará todos los corazones vacíos (🤍)
         const contenedorProductos = document.getElementById("contenedor-productos");
