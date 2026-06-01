@@ -1,3 +1,4 @@
+
 import { obtenerProductos } from "./products.js";
 import { AuthService } from "./auth.js";
 import { Carrito } from "./cart.js";
@@ -6,7 +7,7 @@ import { LocalStorageService } from "./storage.js";
 import { SearchService } from "./search.js";
 import { WishlistService } from "./wishlist.js";
 
-const swalLumina = Swal.mixin({
+const swalLumina = window.Swal.mixin({
     background: "#faf8f4",
     color: "#121212",
     confirmButtonColor: "#121212",
@@ -19,18 +20,15 @@ const swalLumina = Swal.mixin({
     }
 });
 
-const toastLumina = swalLumina.mixin({
-
+const toastLumina = Swal.mixin({
     toast: true,
-
     position: "bottom-end",
-
     showConfirmButton: false,
-
     timer: 2500,
-
-    timerProgressBar: true
-
+    timerProgressBar: true,
+    customClass: {
+        popup: "lumina-toast"
+    }
 });
 
 const miCarrito = new Carrito();

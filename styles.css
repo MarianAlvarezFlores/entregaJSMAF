@@ -641,6 +641,62 @@ h2 {
 }
 
 /* =========================
+   SWEET ALERT LÚMINA
+========================= */
+
+.lumina-popup {
+    background: #faf8f4 !important;
+    border: 1px solid #d8d1c7 !important;
+    border-radius: 0 !important;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.12);
+}
+
+.lumina-title {
+    font-family: var(--font-serif) !important;
+    font-size: 1.7rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 1px !important;
+}
+
+.lumina-confirm,
+.lumina-cancel {
+
+    border-radius: 0 !important;
+
+    text-transform: uppercase !important;
+
+    letter-spacing: 2px !important;
+
+    font-size: 0.7rem !important;
+
+    padding: 12px 22px !important;
+}
+
+.lumina-confirm {
+    background: #121212 !important;
+}
+
+.lumina-cancel {
+    background: #8b8174 !important;
+}
+
+.swal2-input {
+
+    border: 1px solid #d8d1c7 !important;
+
+    box-shadow: none !important;
+}
+
+.swal2-input:focus {
+
+    border-color: #b8ab99 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(184,171,153,0.12) !important;
+}
+/* =========================
    FOOTER
 ========================= */
 
@@ -810,62 +866,7 @@ footer {
     letter-spacing: 1px;
 }
 
-/* =========================
-   SWEET ALERT LÚMINA
-========================= */
 
-.lumina-popup {
-    background: #faf8f4 !important;
-    border: 1px solid #d8d1c7 !important;
-    border-radius: 0 !important;
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,0.12);
-}
-
-.lumina-title {
-    font-family: var(--font-serif) !important;
-    font-size: 1.7rem !important;
-    font-weight: 400 !important;
-    letter-spacing: 1px !important;
-}
-
-.lumina-confirm,
-.lumina-cancel {
-
-    border-radius: 0 !important;
-
-    text-transform: uppercase !important;
-
-    letter-spacing: 2px !important;
-
-    font-size: 0.7rem !important;
-
-    padding: 12px 22px !important;
-}
-
-.lumina-confirm {
-    background: #121212 !important;
-}
-
-.lumina-cancel {
-    background: #8b8174 !important;
-}
-
-.swal2-input {
-
-    border: 1px solid #d8d1c7 !important;
-
-    box-shadow: none !important;
-}
-
-.swal2-input:focus {
-
-    border-color: #b8ab99 !important;
-
-    box-shadow:
-        0 0 0 3px rgba(184,171,153,0.12) !important;
-}
 
 /* =========================
    RESPONSIVE
