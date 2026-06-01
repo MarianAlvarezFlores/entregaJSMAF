@@ -44,6 +44,6 @@ export const AuthService = {
     },
 
     logout() {
-        LocalStorageService.guardar("usuario", null);
+        localStorage.removeItem("usuario");
     }
 };

@@ -1,4 +1,3 @@
-
 import { obtenerProductos } from "./products.js";
 import { AuthService } from "./auth.js";
 import { Carrito } from "./cart.js";
@@ -7,32 +6,60 @@ import { LocalStorageService } from "./storage.js";
 import { SearchService } from "./search.js";
 import { WishlistService } from "./wishlist.js";
 
-const swalLumina = window.Swal.mixin({
-    background: "#faf8f4",
-    color: "#121212",
-    confirmButtonColor: "#121212",
-    cancelButtonColor: "#8b8174",
-    customClass: {
-        popup: "lumina-popup",
-        title: "lumina-title",
-        confirmButton: "lumina-confirm",
-        cancelButton: "lumina-cancel"
-    }
-});
-
-const toastLumina = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 2500,
-    timerProgressBar: true,
-    customClass: {
-        popup: "lumina-toast"
-    }
-});
-
 const miCarrito = new Carrito();
 let listaProductos = [];
+let agregarAlCarrito;
+let manejarWishlist;
+const actualizarVistaWishlist = () => {
+
+    const seccionWishlist =
+        document.getElementById("seccion-wishlist");
+
+    const contenedorWishlist =
+        document.getElementById("contenedor-wishlist");
+
+    const usuario =
+        LocalStorageService.obtener("usuario");
+
+    if (!usuario) {
+
+        seccionWishlist?.classList.add("hidden");
+
+        if (contenedorWishlist) {
+            contenedorWishlist.innerHTML = "";
+        }
+
+        return;
+    }
+
+    const idsFavs = WishlistService.obtener();
+
+    const productosFavs = listaProductos.filter(
+        p => idsFavs.includes(p.id)
+    );
+
+    if (productosFavs.length === 0) {
+
+        seccionWishlist?.classList.add("hidden");
+
+        if (contenedorWishlist) {
+            contenedorWishlist.innerHTML = "";
+        }
+
+        return;
+    }
+
+    seccionWishlist?.classList.remove("hidden");
+
+    renderProductos(
+        contenedorWishlist,
+        productosFavs,
+        agregarAlCarrito,
+        manejarWishlist
+    );
+};
+
+
 
 const eliminarDelCarrito = (id, talle) => {
     miCarrito.eliminarProducto(id, talle, listaProductos);
@@ -79,18 +106,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         const inputBusqueda = document.getElementById("input-busqueda");
 
         listaProductos = await obtenerProductos();
+        const usuarioActual = LocalStorageService.obtener("usuario");
+
+        if (usuarioActual) {
+            if (btnOpenRegister) btnOpenRegister.style.display = "none";
+            if (btnOpenLogin) btnOpenLogin.style.display = "none";
+            if (btnLogout) btnLogout.style.display = "inline-block";
+        }
 
         if (listaProductos.length === 0) {
             mostrarToast("No hay productos disponibles en el catálogo.");
             return;
         }
 
-        const agregarAlCarrito = (id, talle) => {
+        agregarAlCarrito = (id, talle) => {
             if (!talle || talle === "" || talle === "undefined") {
-                swalLumina.fire({
+                Swal.fire({
                     icon: 'warning',
                     title: 'Falta seleccionar talle',
                     text: 'Por favor, elige un talle antes de agregar el producto al carrito.',
+                    confirmButtonColor: '#D4AF37'
                 });
                 return;
             }
@@ -98,10 +133,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             const agregado = miCarrito.agregar(id, listaProductos, talle);
             
             if (agregado) {
-                toastLumina.fire({
-                    icon: "success",
-                    title: "Producto agregado al carrito"
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
                 });
+
+                Toast.fire({ icon: 'success', title: 'Producto agregado al carrito' });
 
             renderCarrito(
                 document.getElementById("carrito-items"),
@@ -112,60 +156,63 @@ document.addEventListener("DOMContentLoaded", async () => {
                 disminuirCantidad
             );
             } else {
-                swalLumina.fire({
+                Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'No hay suficiente stock para la variante seleccionada.',
+                    confirmButtonColor: '#D4AF37'
                 });
             }
         };
 // --- FUNCIÓN PARA MOSTRAR/OCULTAR LA SECCIÓN VIP ---
-const actualizarVistaWishlist = () => {
 
-    const seccionWishlist = document.getElementById("seccion-wishlist");
-    const contenedorWishlist = document.getElementById("contenedor-wishlist");
-    const usuarioLogueado = LocalStorageService.obtener("usuario");
 
-    if (usuarioLogueado && seccionWishlist) {
+// --- FUNCIÓN MANEJAR WISHLIST CON SWEET ALERT ---
+    manejarWishlist = (id) => {
+        const usuarioLogueado = LocalStorageService.obtener("usuario");
 
-        const idsFavs = WishlistService.obtener();
-
-        const productosFavs = listaProductos.filter(
-            p => idsFavs.includes(p.id)
-        );
-
-        if (productosFavs.length > 0) {
-
-            seccionWishlist.classList.remove("hidden");
-
-            renderProductos(
-                contenedorWishlist,
-                productosFavs,
-                agregarAlCarrito,
-                manejarWishlist
-            );
-
-        } else {
-
-            seccionWishlist.classList.add("hidden");
-
+        // 1. SI NO ESTÁ LOGUEADO: Alerta restrictiva
+        if (!usuarioLogueado) {
+            Swal.fire({
+                title: 'ACCESO EXCLUSIVO',
+                text: 'Debes iniciar sesión para crear tu propia lista de deseos.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#D4AF37',
+                cancelButtonColor: '#000',
+                confirmButtonText: 'INICIAR SESIÓN',
+                cancelButtonText: 'LUEGO'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("btn-open-login").click();
+                }
+            });
+            return; 
         }
 
-    } else if (seccionWishlist) {
+        // 2. SI ESTÁ LOGUEADO: Ejecutar toggle
+        const resultado = WishlistService.toggle(id);
+        
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 2000,
+            icon: 'success',
+            title: resultado.mensaje,
+            background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+            color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
+        });
 
-        seccionWishlist.classList.add("hidden");
-
-    }
-};
-
-// ACTUALIZAR VISTA CUANDO CAMBIA EL ESTADO DE LOGIN
-document.addEventListener("lumina-auth-change", () => {
-
-    actualizarVistaWishlist();
-
-    const contenedorProductos =
-        document.getElementById("contenedor-productos");
-
+        // 3. ACTUALIZACIÓN VISUAL
+        // Volvemos a renderizar el catálogo para que cambie el corazón 🤍 -> ❤️
+        const filtrados = listaProductos;
+        renderProductos(document.getElementById("contenedor-productos"), filtrados, agregarAlCarrito, manejarWishlist);
+        
+        // Actualizamos la sección de arriba
+        actualizarVistaWishlist();
+    };
+        // --- RENDERIZADO INICIAL ---
     if (contenedorProductos) {
         renderProductos(
             contenedorProductos,
@@ -174,72 +221,8 @@ document.addEventListener("lumina-auth-change", () => {
             manejarWishlist
         );
     }
+        actualizarVistaWishlist();
 
-});
-
-// --- FUNCIÓN MANEJAR WISHLIST CON SWEET ALERT ---
-const manejarWishlist = (id) => {
-
-    const usuarioLogueado = LocalStorageService.obtener("usuario");
-
-    // 1. SI NO ESTÁ LOGUEADO: Alerta restrictiva
-    if (!usuarioLogueado) {
-
-        swalLumina.fire({
-            title: "ACCESO EXCLUSIVO",
-            text: "Debes iniciar sesión para crear tu propia lista de deseos.",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonText: "INICIAR SESIÓN",
-            cancelButtonText: "LUEGO"
-        }).then((result) => {
-
-            if (result.isConfirmed) {
-                document.getElementById("btn-open-login").click();
-            }
-
-        });
-
-        return;
-    }
-
-    // 2. SI ESTÁ LOGUEADO: Ejecutar toggle
-    const resultado = WishlistService.toggle(id);
-
-    toastLumina.fire({
-        icon: "success",
-        title: resultado.mensaje
-    });
-
-    // 3. ACTUALIZACIÓN VISUAL
-    const filtrados = listaProductos.filter(
-        p => true
-    );
-
-    renderProductos(
-        document.getElementById("contenedor-productos"),
-        filtrados,
-        agregarAlCarrito,
-        manejarWishlist
-    );
-
-    actualizarVistaWishlist();
-
-};
-
-// --- RENDERIZADO INICIAL ---
-if (contenedorProductos) {
-
-    renderProductos(
-        contenedorProductos,
-        listaProductos,
-        agregarAlCarrito,
-        manejarWishlist
-    );
-
-}
-
-actualizarVistaWishlist();
         // --- 2. LÓGICA DEL BUSCADOR POR PALABRA ---
         if (inputBusqueda) {
             inputBusqueda.addEventListener("input", (e) => {
@@ -283,11 +266,11 @@ actualizarVistaWishlist();
 
     } catch (error) {
         console.error("Error en main.js:", error);
-        swalLumina.fire({
+        Swal.fire({
             icon: 'error',
             title: 'Error de Carga',
             text: 'No pudimos sincronizar el catálogo de productos.',
-
+            confirmButtonColor: '#D4AF37'
         });
     }
 });
@@ -313,7 +296,7 @@ const btnLogout = document.getElementById("btn-logout");
 
 if (btnOpenRegister) {
     btnOpenRegister.addEventListener("click", async () => {
-        const { value: formValues } = await swalLumina.fire({
+        const { value: formValues } = await Swal.fire({
             title: "Registrarse",
             html: `
                 <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
@@ -341,24 +324,35 @@ if (btnOpenRegister) {
             preConfirm: () => {
                 const email = document.getElementById("swal-email").value;
                 const pass = document.getElementById("swal-password").value;
+
                 if (!email || !pass) {
                     Swal.showValidationMessage("Por favor, complete todos los campos");
                 }
+
                 return { email, pass };
             }
         });
 
         if (formValues) {
             const resultado = AuthService.registrar(formValues.email, formValues.pass);
+
             if (resultado === "ok") {
-                toastLumina.fire({
-                icon: "success",
-                title: "Registro exitoso"
-            });
+                Swal.fire("¡Bienvenido!", "Registro exitoso.", "success");
+
+                btnOpenRegister.style.display = "none";
+                btnOpenLogin.style.display = "none";
+                if (btnLogout) btnLogout.style.display = "inline-block";
+
+                actualizarVistaWishlist();
+
+                renderProductos(
+                    document.getElementById("contenedor-productos"),
+                    listaProductos,
+                    agregarAlCarrito,
+                    manejarWishlist
+                );
             } else {
-                toastLumina.fire({
-                    icon: "error", 
-                    title:`No se pudo registrar: ${resultado}`});
+                Swal.fire("Error", resultado, "error");
             }
         }
     });
@@ -366,7 +360,7 @@ if (btnOpenRegister) {
 
 if (btnOpenLogin) {
     btnOpenLogin.addEventListener("click", async () => {
-        const { value: formValues } = await swalLumina.fire({
+        const { value: formValues } = await Swal.fire({
             title: "Iniciar Sesión",
             html: `
                 <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
@@ -403,22 +397,28 @@ if (btnOpenLogin) {
 
         if (formValues) {
             const resultado = AuthService.login(formValues.email, formValues.pass);
+
             if (resultado === "ok") {
-                toastLumina.fire({
-                    icon: "success",
-                    title: "Sesión iniciada correctamente"
-                });
-                
+                Swal.fire("¡Bienvenido!", "Sesión iniciada correctamente.", "success");
+
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
                 if (btnLogout) {
                     btnLogout.style.display = "inline-block";
                 }
-                document.dispatchEvent(
-                    new CustomEvent("lumina-auth-change")
+
+                // 🔥 FIX REAL: sincronizar wishlist + UI
+                actualizarVistaWishlist();
+
+                renderProductos(
+                    document.getElementById("contenedor-productos"),
+                    listaProductos,
+                    agregarAlCarrito,
+                    manejarWishlist
                 );
+
             } else {
-                swalLumina.fire("Error", "Credenciales incorrectas. Verifique los datos.", "error");
+                Swal.fire("Error", "Credenciales incorrectas. Verifique los datos.", "error");
             }
         }
     });
@@ -426,53 +426,42 @@ if (btnOpenLogin) {
 
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
-        // 1. Ejecutamos la lógica de cierre de sesión en el servicio
+
         AuthService.logout();
 
-        // 2. Notificación de éxito con SweetAlert
-        toastLumina.fire({
+        btnLogout.style.display = "none";
+        if (btnOpenRegister) btnOpenRegister.style.display = "inline-block";
+        if (btnOpenLogin) btnOpenLogin.style.display = "inline-block";
+
+        const carritoItems = document.getElementById("carrito-items");
+        if (carritoItems) carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
+
+        const total = document.getElementById("total");
+        if (total) total.textContent = "$0";
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        });
+
+        Toast.fire({
             icon: 'success',
             title: 'Sesión cerrada'
         });
-        
-        // 3. Control de visibilidad de botones de acceso
-        btnLogout.style.display = "none";
-        if (btnOpenRegister) {
-            btnOpenRegister.style.display = "inline-block";
-        }
-        if (btnOpenLogin) {
-            btnOpenLogin.style.display = "inline-block";
-        }
 
-        // 4. Limpieza visual del Carrito
-        const carritoItems = document.getElementById("carrito-items");
-        if (carritoItems) {
-            carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
-        }
-        const total = document.getElementById("total");
-        if (total) {
-            total.textContent = "$0";
-        }
+        actualizarVistaWishlist();
 
-        // 5. WISHLIST 
-        
-        // Ocultamos la sección VIP de favoritos inmediatamente
-       document.dispatchEvent(
-        new CustomEvent("lumina-auth-change")
+        renderProductos(
+            document.getElementById("contenedor-productos"),
+            listaProductos,
+            agregarAlCarrito,
+            manejarWishlist, 
         );
-
-        // Refrescamos el catálogo principal: 
-        // Al no haber usuario logueado, renderProductos pintará todos los corazones vacíos (🤍)
-        const contenedorProductos = document.getElementById("contenedor-productos");
-       /* if (contenedorProductos) {
-            renderProductos(
-                contenedorProductos, 
-                listaProductos, 
-                agregarAlCarrito, 
-                manejarWishlist
-            );
-        }*/
     });
+    actualizarVistaWishlist();
 }
 
 // Botón para finalizar compra
@@ -482,16 +471,16 @@ if (btnComprar) {
         const usuarioActual = LocalStorageService.obtener("usuario");
         
         if (!usuarioActual) {
-            swalLumina.fire({
+            Swal.fire({
                 icon: 'warning',
                 title: 'Acción necesaria',
                 text: 'Debes iniciar sesión para finalizar la compra.',
-
+                confirmButtonColor: '#D4AF37'
             });
             return;
         }
 
-        swalLumina.fire({
+        Swal.fire({
             title: 'Procesando tu pedido',
             text: 'Por favor, espera unos instantes...',
             allowOutsideClick: false,
@@ -502,11 +491,11 @@ if (btnComprar) {
 
         try {
             const resultado = await miCarrito.finalizarCompra(listaProductos);
-            swalLumina.fire({
+            Swal.fire({
                 icon: 'success',
                 title: '¡Compra completada!',
                 text: resultado.mensaje,
-
+                confirmButtonColor: '#D4AF37'
             });
             renderCarrito(
                 document.getElementById("carrito-items"),
@@ -517,10 +506,11 @@ if (btnComprar) {
                 disminuirCantidad
             );
         } catch (error) {
-            swalLumina.fire({
+            Swal.fire({
                 icon: 'error',
                 title: 'Error en la compra',
                 text: error,
+                confirmButtonColor: '#D4AF37'
             });
         }
     });
@@ -531,19 +521,22 @@ const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
         if (miCarrito.getItems().length === 0) {
-            swalLumina.fire({
-                icon: "info",
-                title: "Carrito vacío",
-                text: "No hay productos en el carrito."
+            Swal.fire({
+                icon: 'info',
+                title: 'Carrito vacío',
+                text: 'No hay productos en el carrito para vaciar.',
+                confirmButtonColor: '#D4AF37'
             });
             return;
         }
 
-        swalLumina.fire({
+        Swal.fire({
             title: '¿Estás seguro?',
             text: "No podrás revertir esta acción.",
             icon: 'warning',
             showCancelButton: true,
+            confirmButtonColor: '#D4AF37',
+            cancelButtonColor: '#717171',
             confirmButtonText: 'Sí, vaciar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
@@ -563,9 +556,9 @@ if (btnVaciar) {
                     }
                 });
 
-                toastLumina.fire({
-                    icon: "success",
-                    title: "El carrito se ha vaciado"
+                Toast.fire({
+                    icon: 'success',
+                    title: 'El carrito se ha vaciado'
                 });
 
                 
@@ -651,16 +644,5 @@ if (
             videoCampania.pause();
             videoCampania.currentTime = 0;
         }
-    });
-
-    // =========================
-    // AUTO CIERRE AL TERMINAR
-    // =========================
-
-    videoCampania.addEventListener("ended", () => {
-        videoModal.classList.remove("activo");
-
-        videoCampania.pause();
-        videoCampania.currentTime = 0;
     });
 }
