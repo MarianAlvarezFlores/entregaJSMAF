@@ -647,6 +647,26 @@ h2 {
     border-bottom: none;
 }
 
+.item-carrito-layout {
+    display: flex;
+    gap: 15px;
+}
+
+.img-carrito {
+    width: 70px;
+    height: 90px;
+
+    object-fit: cover;
+
+    border: 1px solid var(--vb-linea);
+
+    flex-shrink: 0;
+}
+
+.item-carrito-info {
+    flex: 1;
+}
+
 .item-carrito span:first-child {
     display: block;
     font-family: var(--font-serif);

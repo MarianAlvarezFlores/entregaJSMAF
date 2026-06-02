@@ -127,30 +127,44 @@ export function renderCarrito(
         li.className = "item-carrito";
 
         li.innerHTML = `
-            <span>
-                ${item.nombre} (Talle: ${item.talle})
-            </span>
+            <div class="item-carrito-layout">
 
-            <div class="controles-cantidad">
-                <button class="btn-menos">
-                    <i data-lucide="minus"></i>
-                </button>
+                <img
+                    src="${item.img}"
+                    alt="${item.nombre}"
+                    class="img-carrito"
+                >
 
-                <span>${item.cantidad}</span>
+                <div class="item-carrito-info">
 
-                <button class="btn-mas">
-                    <i data-lucide="plus"></i>
-                </button>
+                    <span>
+                        ${item.nombre} (Talle: ${item.talle})
+                    </span>
+
+                    <div class="controles-cantidad">
+                        <button class="btn-menos">
+                            <i data-lucide="minus"></i>
+                        </button>
+
+                        <span>${item.cantidad}</span>
+
+                        <button class="btn-mas">
+                            <i data-lucide="plus"></i>
+                        </button>
+                    </div>
+
+                    <span>
+                        $${(item.precio * item.cantidad).toLocaleString()}
+                    </span>
+
+                    <button class="btn-principal btn-eliminar-item">
+                        Eliminar
+                    </button>
+
+                </div>
+
             </div>
-
-            <span>
-                $${(item.precio * item.cantidad).toLocaleString()}
-            </span>
-
-            <button class="btn-principal btn-eliminar-item">
-                Eliminar
-            </button>
-        `;
+`;
 
         const btnEliminar = li.querySelector(".btn-eliminar-item");
         const btnMas = li.querySelector(".btn-mas");
