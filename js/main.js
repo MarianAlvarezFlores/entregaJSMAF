@@ -224,20 +224,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         actualizarVistaWishlist();
 
         // --- 2. LÓGICA DEL BUSCADOR POR PALABRA ---
-        if (inputBusqueda) {
-            inputBusqueda.addEventListener("input", (e) => {
-                const termino = e.target.value.toLowerCase().trim();
-                
-                // Filtramos la lista original por el nombre o la categoría
-                const filtrados = listaProductos.filter(p => 
-                    p.nombre.toLowerCase().includes(termino) || 
-                    p.categoria.toLowerCase().includes(termino)
-                );
-
-                // Volvemos a renderizar con los resultados del filtro
-                renderProductos(contenedorProductos, filtrados, agregarAlCarrito, manejarWishlist);
-            });
-        }
+        SearchService.init(
+            inputBusqueda,
+            listaProductos,
+            contenedorProductos,
+            agregarAlCarrito,
+            manejarWishlist
+        );
 
         // Lógica de los filtros (Botones)
         const btnTodos = document.getElementById("btn-todos");

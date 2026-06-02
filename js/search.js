@@ -1,35 +1,45 @@
 import { renderProductos } from "./ui.js";
 
-/**
- * Servicio de búsqueda por palabra clave
- */
 export const SearchService = {
+
     /**
-     * @param {HTMLElement} input - El input de texto
-     * @param {Array} listaProductos - La lista original completa
-     * @param {HTMLElement} contenedor - Donde se renderiza
-     * @param {Function} agregarAlCarrito - Callback para los botones de compra
+     * Inicializa el buscador de productos.
+     *
+     * @param {HTMLElement} input
+     * @param {Array} listaProductos
+     * @param {HTMLElement} contenedor
+     * @param {Function} agregarAlCarrito
+     * @param {Function} manejarWishlist
      */
-    init(input, listaProductos, contenedor, agregarAlCarrito) {
+    init(
+        input,
+        listaProductos,
+        contenedor,
+        agregarAlCarrito,
+        manejarWishlist
+    ) {
+
         if (!input || !contenedor) return;
 
         input.addEventListener("input", (e) => {
-            const palabra = e.target.value.toLowerCase().trim();
 
-            // Si el input está vacío, mostramos todos
-            if (palabra === "") {
-                renderProductos(contenedor, listaProductos, agregarAlCarrito);
-                return;
-            }
+            const palabra = e.target.value
+                .toLowerCase()
+                .trim();
 
-            // Filtramos por nombre o categoría usando la palabra clave
-            const resultados = listaProductos.filter(producto => 
-                producto.nombre.toLowerCase().includes(palabra) || 
-                producto.categoria.toLowerCase().includes(palabra)
+            const resultados = palabra === ""
+                ? listaProductos
+                : listaProductos.filter(producto =>
+                    producto.nombre.toLowerCase().includes(palabra) ||
+                    producto.categoria.toLowerCase().includes(palabra)
+                );
+
+            renderProductos(
+                contenedor,
+                resultados,
+                agregarAlCarrito,
+                manejarWishlist
             );
-
-            // Actualizamos la vista
-            renderProductos(contenedor, resultados, agregarAlCarrito);
         });
     }
 };
