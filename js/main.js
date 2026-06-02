@@ -449,12 +449,18 @@ if (btnOpenLogin) {
 
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
+
         AuthService.logout();
-        console.log("usuario:", LocalStorageService.obtener("usuario"));
-        console.log("favoritos:", WishlistService.obtener());
+
+        miCarrito.clear();
+
         btnLogout.style.display = "none";
-        if (btnOpenRegister) btnOpenRegister.style.display = "inline-block";
-        if (btnOpenLogin) btnOpenLogin.style.display = "inline-block";
+
+        if (btnOpenRegister)
+            btnOpenRegister.style.display = "inline-block";
+
+        if (btnOpenLogin)
+            btnOpenLogin.style.display = "inline-block";
 
         renderCarrito(
             document.getElementById("carrito-items"),
@@ -463,9 +469,12 @@ if (btnLogout) {
             eliminarDelCarrito,
             aumentarCantidad,
             disminuirCantidad
-);
+        );
+
         const total = document.getElementById("total");
-        if (total) total.textContent = "$0";
+
+        if (total)
+            total.textContent = "$0";
 
         const Toast = Swal.mixin({
             toast: true,
