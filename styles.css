@@ -792,18 +792,13 @@ h2 {
 /* =========================
    SWEET ALERT LÚMINA
 ========================= */
-/* =========================
-   SWEET ALERT LÚMINA
-========================= */
-
 .swal2-popup {
     background: #faf8f4 !important;
     border: 1px solid #d8d1c7 !important;
     border-radius: 0 !important;
     max-width: 480px !important;
     padding: 1rem !important;
-    box-shadow:
-        0 25px 60px rgba(0,0,0,0.12) !important;
+    box-shadow:0 25px 60px rgba(0,0,0,0.12) !important;
 }
 
 .swal2-title {
@@ -815,7 +810,8 @@ h2 {
 }
 
 .swal2-html-container {
-    font-family: var(--font-sans) !important;
+    font-family: var(--font-serif) !important;
+    font-size: 1.1 rem !important;
     color: #555 !important;
     overflow-x: hidden !important;
     margin: 1.5rem 0 !important;
