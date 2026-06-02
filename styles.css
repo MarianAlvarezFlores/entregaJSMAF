@@ -685,11 +685,14 @@ h2 {
 
 .btn-mas svg,
 .btn-menos svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     stroke-width: 2;
 }
 
+.controles-cantidad span {
+    font-size: 0.9rem;
+}
 .btn-mas:hover,
 .btn-menos:hover {
     background: var(--vb-negro);
@@ -849,6 +852,7 @@ h2 {
     font-weight: 400;
     letter-spacing: 1px;
     margin-bottom: 10px;
+    margin-left: 8px;
 }
 
 #contador-carrito {
