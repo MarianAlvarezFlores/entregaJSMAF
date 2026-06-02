@@ -201,6 +201,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
     }
         actualizarVistaWishlist();
+        renderCarrito(
+            document.getElementById("carrito-items"),
+            miCarrito.getItems(),
+            miCarrito.calcularTotal(),
+            eliminarDelCarrito,
+            aumentarCantidad,
+            disminuirCantidad
+    );
 
         // --- 2. LÓGICA DEL BUSCADOR POR PALABRA ---
         SearchService.init(
@@ -407,7 +415,14 @@ if (btnLogout) {
         if (btnOpenRegister) btnOpenRegister.style.display = "inline-block";
         if (btnOpenLogin) btnOpenLogin.style.display = "inline-block";
 
-        const carritoItems = document.getElementById("carrito-items");
+        renderCarrito(
+            document.getElementById("carrito-items"),
+            [],
+            0,
+            eliminarDelCarrito,
+            aumentarCantidad,
+            disminuirCantidad
+);
         if (carritoItems) carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
 
         const total = document.getElementById("total");

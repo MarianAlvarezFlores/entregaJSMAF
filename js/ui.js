@@ -111,9 +111,28 @@ export function renderCarrito(
             cantidadItems.textContent = "0 ITEMS";
         }
 
-        const pEmpty = document.createElement("p");
-        pEmpty.textContent = "El carrito está vacío.";
-        container.appendChild(pEmpty);
+        container.innerHTML = `
+            <div class="carrito-vacio">
+
+                <i
+                    data-lucide="shopping-bag"
+                    class="icono-carrito-vacio"
+                ></i>
+
+                <h3>
+                    Tu carrito está vacío
+                </h3>
+
+                <p>
+                    Agregá productos para comenzar tu compra.
+                </p>
+
+            </div>
+        `;
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
 
         if (totalEl) {
             totalEl.textContent = "$0";
@@ -123,7 +142,9 @@ export function renderCarrito(
     }
 
     carritoItems.forEach(item => {
+
         const li = document.createElement("li");
+
         li.className = "item-carrito";
 
         li.innerHTML = `
@@ -142,33 +163,44 @@ export function renderCarrito(
                     </span>
 
                     <div class="controles-cantidad">
+
                         <button class="btn-menos">
                             <i data-lucide="minus"></i>
                         </button>
 
-                        <span>${item.cantidad}</span>
+                        <span>
+                            ${item.cantidad}
+                        </span>
 
                         <button class="btn-mas">
                             <i data-lucide="plus"></i>
                         </button>
+
                     </div>
 
                     <span>
                         $${(item.precio * item.cantidad).toLocaleString()}
                     </span>
 
-                    <button class="btn-principal btn-eliminar-item">
+                    <button
+                        class="btn-principal btn-eliminar-item"
+                    >
                         Eliminar
                     </button>
 
                 </div>
 
             </div>
-`;
+        `;
 
-        const btnEliminar = li.querySelector(".btn-eliminar-item");
-        const btnMas = li.querySelector(".btn-mas");
-        const btnMenos = li.querySelector(".btn-menos");
+        const btnEliminar =
+            li.querySelector(".btn-eliminar-item");
+
+        const btnMas =
+            li.querySelector(".btn-mas");
+
+        const btnMenos =
+            li.querySelector(".btn-menos");
 
         btnEliminar.addEventListener("click", () => {
             onRemove(item.id, item.talle);
@@ -183,16 +215,17 @@ export function renderCarrito(
         });
 
         container.appendChild(li);
-        if (window.lucide) {
-            lucide.createIcons();
-        }
     });
 
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
     if (totalEl) {
-        totalEl.textContent = `$${total.toLocaleString()}`;
+        totalEl.textContent =
+            `$${total.toLocaleString()}`;
     }
 }
-
 export function mostrarToast(mensaje) {
 
     Toastify({

@@ -332,6 +332,47 @@ h2 {
     font-size: 0.9rem;
 }
 
+.carrito-vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 60px 10px;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.icono-carrito-vacio {
+    width: 42px;
+    height: 42px;
+
+    color: #777;
+
+    stroke-width: 1.4;
+}
+
+.carrito-vacio h3 {
+    font-family: var(--font-serif);
+
+    font-size: 1.1rem;
+
+    font-weight: 400;
+
+    margin: 0;
+}
+
+.carrito-vacio p {
+    max-width: 220px;
+
+    color: #777;
+
+    font-size: 0.8rem;
+
+    line-height: 1.6;
+
+    margin: 0;
+}
+
 .hidden {
     display: none;
 }
