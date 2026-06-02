@@ -14,38 +14,28 @@ const actualizarVistaWishlist = () => {
 
     const seccionWishlist =
         document.getElementById("seccion-wishlist");
-
     const contenedorWishlist =
         document.getElementById("contenedor-wishlist");
-
     const usuario =
         LocalStorageService.obtener("usuario");
-
     if (!usuario) {
-
         seccionWishlist?.classList.add("hidden");
-
         if (contenedorWishlist) {
             contenedorWishlist.innerHTML = "";
         }
-
         return;
     }
 
     const idsFavs = WishlistService.obtener();
-
     const productosFavs = listaProductos.filter(
         p => idsFavs.includes(p.id)
     );
 
     if (productosFavs.length === 0) {
-
         seccionWishlist?.classList.add("hidden");
-
         if (contenedorWishlist) {
             contenedorWishlist.innerHTML = "";
         }
-
         return;
     }
 
@@ -58,8 +48,6 @@ const actualizarVistaWishlist = () => {
         manejarWishlist
     );
 };
-
-
 
 const eliminarDelCarrito = (id, talle) => {
     miCarrito.eliminarProducto(id, talle, listaProductos);
@@ -104,10 +92,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const contenedorProductos = document.getElementById("contenedor-productos");
         // 1. CAPTURAMOS EL INPUT DEL BUSCADOR
         const inputBusqueda = document.getElementById("input-busqueda");
-
         listaProductos = await obtenerProductos();
         const usuarioActual = LocalStorageService.obtener("usuario");
-
         if (usuarioActual) {
             if (btnOpenRegister) btnOpenRegister.style.display = "none";
             if (btnOpenLogin) btnOpenLogin.style.display = "none";
@@ -118,7 +104,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             mostrarToast("No hay productos disponibles en el catálogo.");
             return;
         }
-
         agregarAlCarrito = (id, talle) => {
             if (!talle || talle === "" || talle === "undefined") {
                 Swal.fire({
@@ -129,7 +114,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 return;
             }
-
             const agregado = miCarrito.agregar(id, listaProductos, talle);
             
             if (agregado) {
@@ -144,9 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         toast.addEventListener('mouseleave', Swal.resumeTimer);
                     }
                 });
-
                 Toast.fire({ icon: 'success', title: 'Producto agregado al carrito' });
-
             renderCarrito(
                 document.getElementById("carrito-items"),
                 miCarrito.getItems(),
@@ -164,8 +146,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             }
         };
-// --- FUNCIÓN PARA MOSTRAR/OCULTAR LA SECCIÓN VIP ---
-
 
 // --- FUNCIÓN MANEJAR WISHLIST CON SWEET ALERT ---
     manejarWishlist = (id) => {
@@ -204,8 +184,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
         });
 
-        // 3. ACTUALIZACIÓN VISUAL
-        // Volvemos a renderizar el catálogo para que cambie el corazón 🤍 -> ❤️
+        // Volvemos a renderizar el catálogo para que cambie el corazón 
         const filtrados = listaProductos;
         renderProductos(document.getElementById("contenedor-productos"), filtrados, agregarAlCarrito, manejarWishlist);
         
@@ -295,21 +274,27 @@ if (btnOpenRegister) {
                 <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
                 <div style="position: relative; display: inline-block; width: 100%;">
                     <input id="swal-password" class="swal2-input" placeholder="Contraseña" type="password" style="margin: 0 auto; width: 80%;">
-                    <button type="button" id="swal-toggle-pass" style="position: absolute; right: 10px; top: 15px; border: none; background: none; cursor: pointer;">👁️</button>
+                    <button type="button" id="swal-toggle-pass" class="swal-pass-toggle"><i data-lucide="eye"></i>
+</button>
                 </div>
             `,
             focusConfirm: false,
             didOpen: () => {
+                lucide.createIcons();
                 const toggleBtn = document.getElementById("swal-toggle-pass");
                 if (toggleBtn) {
                     toggleBtn.addEventListener("click", () => {
                         const passInput = document.getElementById("swal-password");
                         if (passInput.type === "password") {
                             passInput.type = "text";
-                            toggleBtn.textContent = "🙈";
+                            toggleBtn.innerHTML =
+                                '<i data-lucide="eye-off"></i>';
+                            lucide.createIcons();
                         } else {
                             passInput.type = "password";
-                            toggleBtn.textContent = "👁️";
+                            toggleBtn.innerHTML =
+                                '<i data-lucide="eye"></i>';
+                            lucide.createIcons();
                         }
                     });
                 }
@@ -335,9 +320,7 @@ if (btnOpenRegister) {
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
                 if (btnLogout) btnLogout.style.display = "inline-block";
-
                 actualizarVistaWishlist();
-
                 renderProductos(
                     document.getElementById("contenedor-productos"),
                     listaProductos,
@@ -359,21 +342,26 @@ if (btnOpenLogin) {
                 <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
                 <div style="position: relative; display: inline-block; width: 100%;">
                     <input id="swal-password" class="swal2-input" placeholder="Contraseña" type="password" style="margin: 0 auto; width: 80%;">
-                    <button type="button" id="swal-toggle-pass" style="position: absolute; right: 10px; top: 15px; border: none; background: none; cursor: pointer;">👁️</button>
+                    <button type="button" id="swal-toggle-pass"class="swal-pass-toggle"> <i data-lucide="eye"></i></button>
                 </div>
             `,
             focusConfirm: false,
             didOpen: () => {
+                lucide.createIcons();
                 const toggleBtn = document.getElementById("swal-toggle-pass");
                 if (toggleBtn) {
                     toggleBtn.addEventListener("click", () => {
                         const passInput = document.getElementById("swal-password");
                         if (passInput.type === "password") {
                             passInput.type = "text";
-                            toggleBtn.textContent = "🙈";
+                            toggleBtn.innerHTML =
+                                '<i data-lucide="eye-off"></i>';
+                            lucide.createIcons();
                         } else {
                             passInput.type = "password";
-                            toggleBtn.textContent = "👁️";
+                            toggleBtn.innerHTML =
+                                '<i data-lucide="eye"></i>';
+                            lucide.createIcons();
                         }
                     });
                 }
@@ -387,7 +375,6 @@ if (btnOpenLogin) {
                 return { email, pass };
             }
         });
-
         if (formValues) {
             const resultado = AuthService.login(formValues.email, formValues.pass);
 
@@ -399,17 +386,13 @@ if (btnOpenLogin) {
                 if (btnLogout) {
                     btnLogout.style.display = "inline-block";
                 }
-
-                // 🔥 FIX REAL: sincronizar wishlist + UI
                 actualizarVistaWishlist();
-
                 renderProductos(
                     document.getElementById("contenedor-productos"),
                     listaProductos,
                     agregarAlCarrito,
                     manejarWishlist
                 );
-
             } else {
                 Swal.fire("Error", "Credenciales incorrectas. Verifique los datos.", "error");
             }
@@ -419,9 +402,7 @@ if (btnOpenLogin) {
 
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
-
         AuthService.logout();
-
         btnLogout.style.display = "none";
         if (btnOpenRegister) btnOpenRegister.style.display = "inline-block";
         if (btnOpenLogin) btnOpenLogin.style.display = "inline-block";
