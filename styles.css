@@ -247,6 +247,10 @@ nav button {
     top: 12px;
     right: 12px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
     background: rgba(0,0,0,0.25);
 
@@ -258,9 +262,14 @@ nav button {
     border-radius: 50%;
 
     cursor: pointer;
-    font-size: 1.1rem;
 
     transition: all 0.25s ease;
+}
+
+.cerrar-video svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
 }
 
 .cerrar-video:hover {
