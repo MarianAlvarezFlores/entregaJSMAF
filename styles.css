@@ -593,11 +593,8 @@ h2 {
 .icono-favorito {
     width: 18px;
     height: 18px;
-
     stroke-width: 1.7;
-
     color: var(--vb-negro);
-
     transition: all 0.3s ease;
 }
 
@@ -612,45 +609,44 @@ h2 {
 #carrito-seccion {
     position: fixed;
     top: 0;
-    right: -420px;
+    right: 0;
     width: 400px;
     height: 100vh;
     background: #fdfdfc;
     border-left: 1px solid var(--vb-linea);
     padding: 50px 35px;
     overflow-y: auto;
-    transition: right 0.4s ease;
+    transform: translateX(100%);
+    transition: 
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.25s ease;
     z-index: 2000;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
+    will-change: transform;
 }
 
 #carrito-seccion.abierto {
-    right: 0;
+    opacity: 1;
+    transform: translateX(0);
 }
-
 /* =========================
    OVERLAY CARRITO
 ========================= */
 
 #overlay-carrito {
     position: fixed;
-
     inset: 0;
-
     background: rgba(0, 0, 0, 0.35);
-
     opacity: 0;
-
     visibility: hidden;
-
-    transition: all 0.3s ease;
-
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease;
     z-index: 1500;
 }
 
 #overlay-carrito.activo {
     opacity: 1;
-
     visibility: visible;
 }
 
@@ -696,12 +692,14 @@ h2 {
 .img-carrito {
     width: 70px;
     height: 90px;
-
     object-fit: cover;
-
     border: 1px solid var(--vb-linea);
-
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.img-carrito:hover {
+    transform: scale(1.05);
 }
 
 .item-carrito-info {
