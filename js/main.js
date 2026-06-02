@@ -269,15 +269,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Implementación del modo oscuro
 const btnTheme = document.getElementById("btn-theme");
+
+function actualizarIconoTema() {
+
+    if (document.body.classList.contains("dark-mode")) {
+
+        btnTheme.innerHTML =
+            '<i data-lucide="sun"></i>';
+
+    } else {
+
+        btnTheme.innerHTML =
+            '<i data-lucide="moon"></i>';
+
+    }
+
+    lucide.createIcons();
+}
+
 if (btnTheme) {
+
     if (localStorage.getItem("dark-mode") === "true") {
         document.body.classList.add("dark-mode");
     }
 
+    actualizarIconoTema();
+
     btnTheme.addEventListener("click", () => {
+
         document.body.classList.toggle("dark-mode");
-        const isDark = document.body.classList.contains("dark-mode");
+
+        const isDark =
+            document.body.classList.contains("dark-mode");
+
         localStorage.setItem("dark-mode", isDark);
+
+        actualizarIconoTema();
     });
 }
 
