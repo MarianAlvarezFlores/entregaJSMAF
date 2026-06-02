@@ -132,11 +132,15 @@ export function renderCarrito(
             </span>
 
             <div class="controles-cantidad">
-                <button class="btn-menos">➖</button>
+                <button class="btn-menos">
+                    <i data-lucide="minus"></i>
+                </button>
 
                 <span>${item.cantidad}</span>
 
-                <button class="btn-mas">➕</button>
+                <button class="btn-mas">
+                    <i data-lucide="plus"></i>
+                </button>
             </div>
 
             <span>
@@ -165,6 +169,9 @@ export function renderCarrito(
         });
 
         container.appendChild(li);
+        if (window.lucide) {
+            lucide.createIcons();
+        }
     });
 
     if (totalEl) {

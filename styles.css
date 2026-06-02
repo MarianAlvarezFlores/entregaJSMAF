@@ -672,7 +672,17 @@ h2 {
     border: 1px solid var(--vb-linea);
     background: white;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
+}
+
+.btn-mas svg,
+.btn-menos svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2;
 }
 
 .btn-mas:hover,
