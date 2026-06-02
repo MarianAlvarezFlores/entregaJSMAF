@@ -477,6 +477,21 @@ h2 {
         transform 0.3s ease;
 }
 
+#btn-comprar svg,
+#btn-vaciar svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.8;
+}
+
+#btn-comprar,
+#btn-vaciar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 .btn-principal {
     background-color: #1f1f1f;
     color: white;
@@ -625,6 +640,10 @@ h2 {
 .item-carrito {
     padding: 20px 0;
     border-bottom: 1px solid var(--vb-linea);
+}
+
+.item-carrito:last-child {
+    border-bottom: none;
 }
 
 .item-carrito span:first-child {
