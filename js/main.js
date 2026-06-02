@@ -117,6 +117,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             const agregado = miCarrito.agregar(id, listaProductos, talle);
             
             if (agregado) {
+                    const btnCarrito =
+                    document.getElementById("btn-carrito");
+
+                if (btnCarrito) {
+
+                    btnCarrito.classList.add("carrito-animado");
+
+                    setTimeout(() => {
+                        btnCarrito.classList.remove("carrito-animado");
+                    }, 400);
+                }
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'bottom-end',
