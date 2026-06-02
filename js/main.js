@@ -12,6 +12,7 @@ let agregarAlCarrito;
 let manejarWishlist;
 const actualizarVistaWishlist = () => {
 
+
     const seccionWishlist =
         document.getElementById("seccion-wishlist");
     const contenedorWishlist =
@@ -422,6 +423,8 @@ if (btnOpenLogin) {
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
         AuthService.logout();
+        console.log("usuario:", LocalStorageService.obtener("usuario"));
+        console.log("favoritos:", WishlistService.obtener());
         btnLogout.style.display = "none";
         if (btnOpenRegister) btnOpenRegister.style.display = "inline-block";
         if (btnOpenLogin) btnOpenLogin.style.display = "inline-block";
@@ -434,8 +437,6 @@ if (btnLogout) {
             aumentarCantidad,
             disminuirCantidad
 );
-        if (carritoItems) carritoItems.innerHTML = "<p>El carrito está vacío.</p>";
-
         const total = document.getElementById("total");
         if (total) total.textContent = "$0";
 
