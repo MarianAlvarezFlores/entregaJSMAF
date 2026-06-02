@@ -434,15 +434,15 @@ if (btnLogout) {
 
         const Toast = Swal.mixin({
             toast: true,
-            position: 'bottom-end',
+            position: "bottom-end",
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true
         });
 
         Toast.fire({
-            icon: 'success',
-            title: 'Sesión cerrada'
+            icon: "success",
+            title: "Sesión cerrada"
         });
 
         actualizarVistaWishlist();
@@ -451,10 +451,9 @@ if (btnLogout) {
             document.getElementById("contenedor-productos"),
             listaProductos,
             agregarAlCarrito,
-            manejarWishlist, 
+            manejarWishlist
         );
     });
-    actualizarVistaWishlist();
 }
 
 // Botón para finalizar compra
