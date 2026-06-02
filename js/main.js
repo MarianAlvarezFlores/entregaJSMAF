@@ -615,26 +615,37 @@ if (
     videoCampania
 ) {
 
+    const cerrarModalVideo = () => {
+        videoModal.classList.remove("activo");
+        videoCampania.pause();
+        videoCampania.currentTime = 0;
+    };
+
     btnVerCampania.addEventListener("click", () => {
         videoModal.classList.add("activo");
         videoCampania.play();
     });
 
-    cerrarVideo.addEventListener("click", () => {
-        videoModal.classList.remove("activo");
-
-        videoCampania.pause();
-        videoCampania.currentTime = 0;
-    });
+    cerrarVideo.addEventListener("click", cerrarModalVideo);
 
     videoModal.addEventListener("click", (e) => {
-
         if (e.target === videoModal) {
+            cerrarModalVideo();
+        }
+    });
 
-            videoModal.classList.remove("activo");
+    // Cerrar al terminar el video
+    videoCampania.addEventListener("ended", () => {
+        cerrarModalVideo();
+    });
 
-            videoCampania.pause();
-            videoCampania.currentTime = 0;
+    // Cerrar con ESC
+    document.addEventListener("keydown", (e) => {
+        if (
+            e.key === "Escape" &&
+            videoModal.classList.contains("activo")
+        ) {
+            cerrarModalVideo();
         }
     });
 }
