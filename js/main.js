@@ -108,10 +108,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         agregarAlCarrito = (id, talle) => {
             if (!talle || talle === "" || talle === "undefined") {
                 Swal.fire({
-                    icon: 'warning',
                     title: 'Falta seleccionar talle',
                     text: 'Por favor, elige un talle antes de agregar el producto al carrito.',
-                    confirmButtonColor: '#D4AF37'
                 });
                 return;
             }
@@ -151,10 +149,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
             } else {
                 Swal.fire({
-                    icon: 'error',
                     title: 'Oops...',
                     text: 'No hay suficiente stock para la variante seleccionada.',
-                    confirmButtonColor: '#D4AF37'
                 });
             }
         };
@@ -168,10 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             Swal.fire({
                 title: 'ACCESO EXCLUSIVO',
                 text: 'Debes iniciar sesión para crear tu propia lista de deseos.',
-                icon: 'info',
                 showCancelButton: true,
-                confirmButtonColor: '#D4AF37',
-                cancelButtonColor: '#000',
                 confirmButtonText: 'INICIAR SESIÓN',
                 cancelButtonText: 'LUEGO'
             }).then((result) => {
@@ -190,10 +183,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
-            icon: 'success',
             title: resultado.mensaje,
-            background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
-            color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
         });
 
         // Volvemos a renderizar el catálogo para que cambie el corazón 
@@ -259,10 +249,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error("Error en main.js:", error);
         Swal.fire({
-            icon: 'error',
             title: 'Error de Carga',
             text: 'No pudimos sincronizar el catálogo de productos.',
-            confirmButtonColor: '#D4AF37'
         });
     }
 });
@@ -319,10 +307,21 @@ if (btnOpenRegister) {
             title: "Registrarse",
             html: `
                 <input id="swal-email" class="swal2-input" placeholder="Correo Electrónico" type="email">
-                <div style="position: relative; display: inline-block; width: 100%;">
-                    <input id="swal-password" class="swal2-input" placeholder="Contraseña" type="password" style="margin: 0 auto; width: 80%;">
-                    <button type="button" id="swal-toggle-pass" class="swal-pass-toggle"><i data-lucide="eye"></i>
-</button>
+                <div style="position: relative; width: 100%;">
+                    <input
+                        id="swal-password"
+                        class="swal2-input"
+                        placeholder="Contraseña"
+                        type="password"
+                    >
+
+                    <button
+                        type="button"
+                        id="swal-toggle-pass"
+                        class="swal-pass-toggle"
+                    >
+                        <i data-lucide="eye"></i>
+                    </button>
                 </div>
             `,
             focusConfirm: false,
@@ -426,7 +425,11 @@ if (btnOpenLogin) {
             const resultado = AuthService.login(formValues.email, formValues.pass);
 
             if (resultado === "ok") {
-                Swal.fire("¡Bienvenido!", "Sesión iniciada correctamente.", "success");
+                Swal.fire({
+                        title: "¡Bienvenido!",
+                        text: "Sesión iniciada correctamente.",
+                        confirmButtonText: "OK"
+                    });
 
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
@@ -508,10 +511,8 @@ if (btnComprar) {
         
         if (!usuarioActual) {
             Swal.fire({
-                icon: 'warning',
                 title: 'Acción necesaria',
                 text: 'Debes iniciar sesión para finalizar la compra.',
-                confirmButtonColor: '#D4AF37'
             });
             return;
         }
@@ -528,10 +529,8 @@ if (btnComprar) {
         try {
             const resultado = await miCarrito.finalizarCompra(listaProductos);
             Swal.fire({
-                icon: 'success',
                 title: '¡Compra completada!',
                 text: resultado.mensaje,
-                confirmButtonColor: '#D4AF37'
             });
             renderCarrito(
                 document.getElementById("carrito-items"),
@@ -543,10 +542,8 @@ if (btnComprar) {
             );
         } catch (error) {
             Swal.fire({
-                icon: 'error',
                 title: 'Error en la compra',
                 text: error,
-                confirmButtonColor: '#D4AF37'
             });
         }
     });
@@ -558,10 +555,8 @@ if (btnVaciar) {
     btnVaciar.addEventListener("click", () => {
         if (miCarrito.getItems().length === 0) {
             Swal.fire({
-                icon: 'info',
                 title: 'Carrito vacío',
                 text: 'No hay productos en el carrito para vaciar.',
-                confirmButtonColor: '#D4AF37'
             });
             return;
         }
@@ -569,10 +564,7 @@ if (btnVaciar) {
         Swal.fire({
             title: '¿Estás seguro?',
             text: "No podrás revertir esta acción.",
-            icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#D4AF37',
-            cancelButtonColor: '#717171',
             confirmButtonText: 'Sí, vaciar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
