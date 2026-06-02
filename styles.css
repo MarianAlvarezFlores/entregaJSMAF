@@ -976,6 +976,203 @@ h2 {
 }
 
 /* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode {
+    background: #0f0f10;
+    color: #f5f5f5;
+}
+
+/* HEADER */
+
+body.dark-mode header {
+    background: #0f0f10;
+    border-bottom: 1px solid #333;
+}
+
+body.dark-mode .logo-container h1,
+body.dark-mode nav button,
+body.dark-mode .nav-actions button,
+body.dark-mode .icon-search,
+body.dark-mode #input-busqueda {
+    color: #f5f5f5;
+}
+
+body.dark-mode .search-container {
+    border-bottom-color: #444;
+}
+
+body.dark-mode #input-busqueda::placeholder {
+    color: #999;
+}
+
+/* HERO */
+
+body.dark-mode .hero-overlay {
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.35),
+            rgba(0,0,0,0)
+        );
+}
+
+/* TÍTULOS */
+
+body.dark-mode h2 {
+    color: #f5f5f5;
+}
+
+/* FILTROS */
+
+body.dark-mode .btn-secundario {
+    color: #f5f5f5;
+    border-color: #555;
+}
+
+body.dark-mode .btn-secundario:hover {
+    background: #222;
+}
+
+/* CARDS */
+
+body.dark-mode .card {
+    background: #181818;
+    border-color: #333;
+}
+
+body.dark-mode .card h3 {
+    color: #f5f5f5;
+}
+
+body.dark-mode .precio {
+    color: #bdbdbd;
+}
+
+body.dark-mode .img-card-container {
+    background: #202020;
+    border-bottom-color: #333;
+}
+
+/* SELECT */
+
+body.dark-mode .select-talle {
+    color: #f5f5f5;
+    border-bottom-color: #555;
+    background: transparent;
+}
+
+body.dark-mode .select-talle option {
+    background: #181818;
+    color: #f5f5f5;
+}
+
+/* FAVORITOS */
+
+body.dark-mode .btn-wish {
+    background: rgba(35,35,35,.95);
+    border-color: #444;
+}
+
+body.dark-mode .icono-favorito {
+    color: #f5f5f5;
+}
+
+body.dark-mode .icono-favorito.activo {
+    fill: #f5f5f5;
+}
+
+/* WISHLIST */
+
+body.dark-mode #seccion-wishlist {
+    border-top-color: #333;
+}
+
+body.dark-mode .texto-vacio {
+    color: #999;
+}
+
+/* CARRITO */
+
+body.dark-mode #carrito-seccion {
+    background: #181818;
+    border-left-color: #333;
+}
+
+body.dark-mode .carrito-footer {
+    background: #181818;
+    border-top-color: #333;
+}
+
+body.dark-mode #cantidad-items {
+    color: #999;
+}
+
+body.dark-mode #total {
+    color: #f5f5f5;
+}
+
+body.dark-mode .item-carrito {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .item-carrito span,
+body.dark-mode .item-carrito-info {
+    color: #f5f5f5;
+}
+
+body.dark-mode .img-carrito {
+    border-color: #333;
+}
+
+body.dark-mode .btn-mas,
+body.dark-mode .btn-menos {
+    background: #222;
+    border-color: #444;
+    color: #f5f5f5;
+}
+
+body.dark-mode .btn-mas:hover,
+body.dark-mode .btn-menos:hover {
+    background: #333;
+}
+
+body.dark-mode .carrito-vacio h3,
+body.dark-mode .carrito-vacio p,
+body.dark-mode .icono-carrito-vacio {
+    color: #bdbdbd;
+}
+
+/* FOOTER */
+
+body.dark-mode footer {
+    border-top-color: #333;
+}
+
+body.dark-mode .footer-brand p,
+body.dark-mode .footer-copy p {
+    color: #999;
+}
+
+/* MODAL LOGIN */
+
+body.dark-mode .modal-content {
+    background: #181818;
+    color: #f5f5f5;
+}
+
+body.dark-mode .input-group input {
+    background: #222;
+    color: #f5f5f5;
+    border-color: #444;
+}
+
+body.dark-mode .input-group input::placeholder {
+    color: #888;
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
