@@ -361,7 +361,10 @@ if (btnOpenRegister) {
             const resultado = AuthService.registrar(formValues.email, formValues.pass);
 
             if (resultado === "ok") {
-                Swal.fire("¡Bienvenido!", "Registro exitoso.", "success");
+                Swal.fire({
+                    title: "Cuenta creada",
+                    text: "Tu registro se completó correctamente."
+                });
 
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
