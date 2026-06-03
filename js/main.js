@@ -138,7 +138,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                         toast.addEventListener('mouseleave', Swal.resumeTimer);
                     }
                 });
-                Toast.fire({ icon: 'success', title: 'Producto agregado al carrito' });
+                Toast.fire({
+                        title: 'Producto agregado al carrito'
+                });
             renderCarrito(
                 document.getElementById("carrito-items"),
                 miCarrito.getItems(),
@@ -495,7 +497,6 @@ if (btnLogout) {
         });
 
         Toast.fire({
-            icon: "success",
             title: "Sesión cerrada"
         });
 
