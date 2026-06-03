@@ -796,8 +796,8 @@ h2 {
     background: #faf8f4 !important;
     border: 1px solid #d8d1c7 !important;
     border-radius: 0 !important;
-    max-width: 480px !important;
-    padding: 1rem !important;
+    max-width: 460px !important;
+    padding: 0.75rem !important;
     box-shadow:0 25px 60px rgba(0,0,0,0.12) !important;
 }
 
@@ -805,16 +805,34 @@ h2 {
     font-family: var(--font-serif) !important;
     font-size: 1.8rem !important;
     font-weight: 400 !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.5px !important;
     color: #121212 !important;
+    margin-bottom: 0.5rem !important;
 }
 
 .swal2-html-container {
     font-family: var(--font-serif) !important;
-    font-size: 1.1 rem !important;
+    font-size: 1.1rem !important;
     color: #555 !important;
     overflow-x: hidden !important;
-    margin: 1.5rem 0 !important;
+    margin: 0.5rem 0 !important;
+    font-weight: 500;
+}
+
+.swal2-validation-message {
+    background: transparent !important;
+    border: 1px solid #d8d1c7 !important;
+    color: #6b6359 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 0.95rem !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+    margin-top: 1rem !important;
+    padding: 1rem !important;
+}
+
+.swal2-validation-message::before {
+    display: none !important;
 }
 
 .swal2-confirm,
@@ -823,7 +841,6 @@ h2 {
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
     font-size: 0.7rem !important;
-
     min-width: 170px !important;
     padding: 12px 22px !important;
 }
@@ -848,9 +865,13 @@ h2 {
 
 .swal2-input {
     width: 100% !important;
-    margin: 0.75rem 0 !important;
+    margin: 0.4rem 0 !important;
     border: 1px solid #d8d1c7 !important;
     box-shadow: none !important;
+}
+
+#swal-password {
+    padding-right: 48px !important;
 }
 
 .swal2-input:focus {
@@ -875,9 +896,20 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition:
-        color 0.3s ease,
-        transform 0.3s ease;
+
+    width: 24px;
+    height: 24px;
+    z-index: 10;
+}
+
+.swal-pass-toggle:hover {
+    color: #121212;
+}
+
+.swal-pass-toggle svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.75;
 }
 
 .swal-pass-toggle:hover {

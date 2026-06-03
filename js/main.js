@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         agregarAlCarrito = (id, talle) => {
             if (!talle || talle === "" || talle === "undefined") {
                 Swal.fire({
-                    title: 'Falta seleccionar talle',
-                    text: 'Por favor, elige un talle antes de agregar el producto al carrito.',
+                    title: 'Seleccioná un talle',
+                    text: 'Elegí una opción antes de continuar.',
                 });
                 return;
             }
@@ -149,8 +149,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
             } else {
                 Swal.fire({
-                    title: 'Oops...',
-                    text: 'No hay suficiente stock para la variante seleccionada.',
+                    title: 'Stock insuficiente',
+                    text: 'No contamos con disponibilidad para esa opción.',
                 });
             }
         };
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!usuarioLogueado) {
             Swal.fire({
                 title: 'ACCESO EXCLUSIVO',
-                text: 'Debes iniciar sesión para crear tu propia lista de deseos.',
+                text: 'Iniciá sesión para guardar tus favoritos.',
                 showCancelButton: true,
                 confirmButtonText: 'INICIAR SESIÓN',
                 cancelButtonText: 'LUEGO'
@@ -416,7 +416,7 @@ if (btnOpenLogin) {
                 const email = document.getElementById("swal-email").value;
                 const pass = document.getElementById("swal-password").value;
                 if (!email || !pass) {
-                    Swal.showValidationMessage("Por favor, ingrese email y contraseña");
+                    Swal.showValidationMessage("Ingresá tu correo electrónico y contraseña.");
                 }
                 return { email, pass };
             }
@@ -444,7 +444,11 @@ if (btnOpenLogin) {
                     manejarWishlist
                 );
             } else {
-                Swal.fire("Error", "Credenciales incorrectas. Verifique los datos.", "error");
+                Swal.fire({
+                        title: "Acceso denegado",
+                        text: "Verificá tu correo electrónico y contraseña.",
+                        confirmButtonText: "OK"
+                    });
             }
         }
     });
