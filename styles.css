@@ -302,18 +302,13 @@ h2 {
 .icono-carrito-vacio {
     width: 42px;
     height: 42px;
-
     color: #777;
-
     stroke-width: 1.4;
 }
 .carrito-vacio h3 {
     font-family: var(--font-serif);
-
     font-size: 1.1rem;
-
     font-weight: 400;
-
     margin: 0;
 }
 .carrito-vacio p {
