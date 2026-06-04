@@ -693,3 +693,21 @@ if (
         }
     });
 }
+
+//Logo sticky//
+const logoSticky = document.getElementById("logoSticky");
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) {
+        logoSticky.classList.add("visible");
+    }
+    if (window.scrollY <= 500) {
+        logoSticky.classList.remove("visible");
+    }
+});
+logoSticky.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});

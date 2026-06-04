@@ -4,21 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lúmina nocturna</title>
-
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
 <body>
-
 <header>
-
     <div class="container">
-
 <nav>
-
     <!-- BUSCADOR (IZQUIERDA) -->
     <div class="nav-left">
         <div class="search-container">
@@ -30,23 +24,18 @@
             >
         </div>
     </div>
-
     <!-- LOGO (CENTRO) -->
     <div class="logo-container">
         <h1>LÚMINA NOCTURNA</h1>
     </div>
-
     <!-- ACCIONES (DERECHA) -->
     <div class="nav-actions">
-
         <button id="btn-open-register">
             Registrarse
         </button>
-
         <button id="btn-open-login" title="Mi cuenta">
             <i data-lucide="user"></i>
         </button>
-
         <button
             id="btn-logout"
             title="Cerrar sesión"
@@ -54,127 +43,88 @@
         >
             <i data-lucide="log-out"></i>
         </button>
-
         <button id="btn-theme" title="Modo oscuro">
             <i data-lucide="moon"></i>
         </button>
-
         <button id="btn-carrito" title="Carrito">
             <i data-lucide="shopping-bag"></i>
         </button>
-
     </div>
 
 </nav>
-
     </div>
-
 </header>
-
 
 <main>
 
     <section class="hero">
-
         <img
             src="./media/hero_3.png"
             alt="Lúmina Nocturna"
             class="hero-img"
         >
-
         <div class="hero-overlay">
-
             <button id="btn-ver-campania" class="btn-principal">
                 Ver campaña
             </button>
-
         </div>
-
     </section>
-
     <div class="main-container">
-
-        
-
         <section id="productos-seccion">
-
             <div class="productos-header">
-
                 <h2>Colección 2026</h2>
-
                 <div class="filtros-container">
                     <button id="btn-todos" class="btn-principal">
                         Todos
                     </button>
-
                     <button id="btn-arriba" class="btn-secundario">
                         Partes de arriba
                     </button>
-
                     <button id="btn-abajo" class="btn-secundario">
                         Partes de abajo
                     </button>
-
                     <button id="btn-vestidos" class="btn-secundario">
                         Vestidos
                     </button>
                 </div>
-
             </div>
-
             <div
                 id="contenedor-productos"
                 class="grid-productos">
             </div>
-
         </section>
         <section id="seccion-wishlist">
-
             <div class="wishlist-header">
                 <h2>Mis Favoritos</h2>
             </div>
-
             <div 
             id="contenedor-wishlist"
             class="grid-productos">
             </div>
-
         </section>
-
     </div>
-
     <aside id="carrito-seccion">
-
         <button id="btn-cerrar-carrito">
             <i data-lucide="x"></i>
         </button>
-
         <div class="carrito-header">
-
             <h2>Shopping bag</h2>
-
             <p id="cantidad-items">
                 0 ITEMS
             </p>
-
         </div>
-
         <ul id="carrito-items"></ul>
-
         <div class="carrito-footer">
-
             <p>
                 Total:
                 <span id="total">$0</span>
             </p>
-
             <button
                 id="btn-comprar"
                 class="btn-principal"
             >
                 Finalizar Compra
             </button>
-
             <button
                 id="btn-vaciar"
                 class="btn-secundario"
@@ -182,21 +132,15 @@
                 <i data-lucide="trash-2"></i>
                 Vaciar carrito
             </button>
-
         </div>
-
     </aside>
-
 </main>
     <div id="overlay-carrito"></div>
     <div id="auth-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
-
             <h2 id="auth-titulo">Iniciar Sesión</h2>
-
             <form id="auth-form">
-
                 <div class="input-group">
                     <label for="auth-email">Correo Electrónico</label>
                     <input
@@ -206,17 +150,14 @@
                         placeholder="tu@email.com"
                     />
                 </div>
-
                 <div class="input-group" style="position: relative;">
                     <label for="auth-pass">Contraseña</label>
-
                     <input
                         type="password"
                         id="auth-pass"
                         required
                         placeholder="••••••••"
                     />
-
                 <button
                     type="button"
                     id="btn-toggle-pass"
@@ -225,7 +166,6 @@
                     <i data-lucide="eye"></i>
                 </button>
             </div>
-
                 <button
                     type="submit"
                     id="auth-submit"
@@ -234,19 +174,14 @@
                 >
                     Confirmar
                 </button>
-
             </form>
         </div>
     </div>
-
     <div id="video-modal" class="video-modal">
-
     <div class="video-modal-content">
-
         <button id="cerrar-video" class="cerrar-video">
             <i data-lucide="x"></i>
         </button>
-
         <video
             id="video-campania"
             controls
@@ -256,32 +191,32 @@
                 type="video/mp4"
             >
         </video>
-
     </div>
-
 </div>
 <footer>
-
     <div class="container footer-container">
-
         <div class="footer-brand">
             <h3>LÚMINA NOCTURNA</h3>
-
             <p>
                 Proyecto final de JS de Mariana Álvarez Flores.
             </p>
         </div>
     </div>
-
 </footer>
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
 });
 </script>
 <script type="module" src="js/main.js"></script>
+<a href="#" id="logoSticky" class="logo-sticky">
+    <img
+        src="./media/logo_sticky.png"
+        alt="Lúmina Nocturna"
+    >
+</a>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

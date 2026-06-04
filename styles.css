@@ -816,6 +816,60 @@ h2 {
     transform: rotate(90deg);
 }
 /* =========================
+   LOGO STICKY
+========================= */
+
+.logo-sticky {
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.95);
+
+    backdrop-filter: blur(8px);
+
+    border: 1px solid #121212;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
+
+    z-index: 3000;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(15px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+.logo-sticky.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.logo-sticky img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.logo-sticky:hover {
+    transform: scale(1.05);
+}
+/* =========================
    DARK MODE
 ========================= */
 body.dark-mode {
