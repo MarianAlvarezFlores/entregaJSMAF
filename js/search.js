@@ -1,5 +1,4 @@
 import { renderProductos } from "./ui.js";
-
 export const SearchService = {
 
     /**
@@ -18,22 +17,17 @@ export const SearchService = {
         agregarAlCarrito,
         manejarWishlist
     ) {
-
         if (!input || !contenedor) return;
-
         input.addEventListener("input", (e) => {
-
             const palabra = e.target.value
                 .toLowerCase()
                 .trim();
-
             const resultados = palabra === ""
                 ? listaProductos
                 : listaProductos.filter(producto =>
                     producto.nombre.toLowerCase().includes(palabra) ||
                     producto.categoria.toLowerCase().includes(palabra)
                 );
-
             renderProductos(
                 contenedor,
                 resultados,

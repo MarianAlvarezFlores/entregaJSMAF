@@ -12,7 +12,6 @@ let agregarAlCarrito;
 let manejarWishlist;
 const actualizarVistaWishlist = () => {
 
-
     const seccionWishlist =
         document.getElementById("seccion-wishlist");
     const contenedorWishlist =
@@ -26,12 +25,10 @@ const actualizarVistaWishlist = () => {
         }
         return;
     }
-
     const idsFavs = WishlistService.obtener();
     const productosFavs = listaProductos.filter(
         p => idsFavs.includes(p.id)
     );
-
     if (productosFavs.length === 0) {
         seccionWishlist?.classList.add("hidden");
         if (contenedorWishlist) {
@@ -39,9 +36,7 @@ const actualizarVistaWishlist = () => {
         }
         return;
     }
-
     seccionWishlist?.classList.remove("hidden");
-
     renderProductos(
         contenedorWishlist,
         productosFavs,
@@ -49,7 +44,6 @@ const actualizarVistaWishlist = () => {
         manejarWishlist
     );
 };
-
 const eliminarDelCarrito = (id, talle) => {
     miCarrito.eliminarProducto(id, talle, listaProductos);
     renderCarrito(
@@ -61,7 +55,6 @@ const eliminarDelCarrito = (id, talle) => {
         disminuirCantidad
     );
 };
-
 const aumentarCantidad = (id, talle) => {
     miCarrito.incrementarCantidad(id, talle, listaProductos);
 
@@ -74,10 +67,8 @@ const aumentarCantidad = (id, talle) => {
         disminuirCantidad
     );
 };
-
 const disminuirCantidad = (id, talle) => {
     miCarrito.decrementarCantidad(id, talle, listaProductos);
-
     renderCarrito(
         document.getElementById("carrito-items"),
         miCarrito.getItems(),
@@ -87,7 +78,6 @@ const disminuirCantidad = (id, talle) => {
         disminuirCantidad
     );
 };
-
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const contenedorProductos = document.getElementById("contenedor-productos");
@@ -100,7 +90,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (btnOpenLogin) btnOpenLogin.style.display = "none";
             if (btnLogout) btnLogout.style.display = "inline-block";
         }
-
         if (listaProductos.length === 0) {
             mostrarToast("No hay productos disponibles en el catálogo.");
             return;
@@ -113,16 +102,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 return;
             }
-            const agregado = miCarrito.agregar(id, listaProductos, talle);
-            
+            const agregado = miCarrito.agregar(id, listaProductos, talle);          
             if (agregado) {
                     const btnCarrito =
                     document.getElementById("btn-carrito");
-
                 if (btnCarrito) {
-
                     btnCarrito.classList.add("carrito-animado");
-
                     setTimeout(() => {
                         btnCarrito.classList.remove("carrito-animado");
                     }, 400);
@@ -156,12 +141,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             }
         };
-
 // --- FUNCIÓN MANEJAR WISHLIST CON SWEET ALERT ---
     manejarWishlist = (id) => {
         const usuarioLogueado = LocalStorageService.obtener("usuario");
-
-        // 1. SI NO ESTÁ LOGUEADO: Alerta restrictiva
         if (!usuarioLogueado) {
             Swal.fire({
                 title: 'ACCESO EXCLUSIVO',
@@ -176,10 +158,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
             return; 
         }
-
-        // 2. SI ESTÁ LOGUEADO: Ejecutar toggle
-        const resultado = WishlistService.toggle(id);
-        
+        const resultado = WishlistService.toggle(id);       
         Swal.fire({
             toast: true,
             position: 'bottom-end',
@@ -187,15 +166,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             timer: 2000,
             title: resultado.mensaje,
         });
-
-        // Volvemos a renderizar el catálogo para que cambie el corazón 
         const filtrados = listaProductos;
         renderProductos(document.getElementById("contenedor-productos"), filtrados, agregarAlCarrito, manejarWishlist);
-        
-        // Actualizamos la sección de arriba
         actualizarVistaWishlist();
     };
-        // --- RENDERIZADO INICIAL ---
     if (contenedorProductos) {
         renderProductos(
             contenedorProductos,
@@ -213,7 +187,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             aumentarCantidad,
             disminuirCantidad
     );
-
         // --- 2. LÓGICA DEL BUSCADOR POR PALABRA ---
         SearchService.init(
             inputBusqueda,
@@ -222,19 +195,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             agregarAlCarrito,
             manejarWishlist
         );
-
         // Lógica de los filtros (Botones)
         const btnTodos = document.getElementById("btn-todos");
         const btnArriba = document.getElementById("btn-arriba");
         const btnAbajo = document.getElementById("btn-abajo");
         const btnVestidos = document.getElementById("btn-vestidos");
-
         const aplicarFiltro = (categoria) => {
             if (!contenedorProductos) return;
-            
-            // Limpio el
             if (inputBusqueda) inputBusqueda.value = "";
-
             if (categoria === "todos") {
                 renderProductos(contenedorProductos, listaProductos, agregarAlCarrito, manejarWishlist);
             } else {
@@ -242,12 +210,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderProductos(contenedorProductos, filtrados, agregarAlCarrito, manejarWishlist);
             }
         };
-
         if (btnTodos) btnTodos.addEventListener("click", () => aplicarFiltro("todos"));
         if (btnArriba) btnArriba.addEventListener("click", () => aplicarFiltro("partes de arriba"));
         if (btnAbajo) btnAbajo.addEventListener("click", () => aplicarFiltro("partes de abajo"));
         if (btnVestidos) btnVestidos.addEventListener("click", () => aplicarFiltro("vestidos"));
-
     } catch (error) {
         console.error("Error en main.js:", error);
         Swal.fire({
@@ -256,48 +222,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 });
-
 // Implementación del modo oscuro
 const btnTheme = document.getElementById("btn-theme");
-
 function actualizarIconoTema() {
-
     if (document.body.classList.contains("dark-mode")) {
-
         btnTheme.innerHTML =
             '<i data-lucide="sun"></i>';
-
     } else {
-
         btnTheme.innerHTML =
             '<i data-lucide="moon"></i>';
-
     }
-
     lucide.createIcons();
 }
-
 if (btnTheme) {
-
     if (localStorage.getItem("dark-mode") === "true") {
         document.body.classList.add("dark-mode");
     }
-
     actualizarIconoTema();
-
     btnTheme.addEventListener("click", () => {
-
         document.body.classList.toggle("dark-mode");
-
         const isDark =
             document.body.classList.contains("dark-mode");
-
         localStorage.setItem("dark-mode", isDark);
-
         actualizarIconoTema();
     });
 }
-
 // Botones de autenticación con SweetAlert2
 const btnOpenRegister = document.getElementById("btn-open-register");
 const btnOpenLogin = document.getElementById("btn-open-login");
@@ -316,7 +265,6 @@ if (btnOpenRegister) {
                         placeholder="Contraseña"
                         type="password"
                     >
-
                     <button
                         type="button"
                         id="swal-toggle-pass"
@@ -358,7 +306,6 @@ if (btnOpenRegister) {
                 return { email, pass };
             }
         });
-
         if (formValues) {
             const resultado = AuthService.registrar(formValues.email, formValues.pass);
 
@@ -367,7 +314,6 @@ if (btnOpenRegister) {
                     title: "Cuenta creada",
                     text: "Tu registro se completó correctamente."
                 });
-
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
                 if (btnLogout) btnLogout.style.display = "inline-block";
@@ -384,7 +330,6 @@ if (btnOpenRegister) {
         }
     });
 }
-
 if (btnOpenLogin) {
     btnOpenLogin.addEventListener("click", async () => {
         const { value: formValues } = await Swal.fire({
@@ -428,14 +373,12 @@ if (btnOpenLogin) {
         });
         if (formValues) {
             const resultado = AuthService.login(formValues.email, formValues.pass);
-
             if (resultado === "ok") {
                 Swal.fire({
                         title: "¡Bienvenido!",
                         text: "Sesión iniciada correctamente.",
                         confirmButtonText: "OK"
                     });
-
                 btnOpenRegister.style.display = "none";
                 btnOpenLogin.style.display = "none";
                 if (btnLogout) {
@@ -458,22 +401,15 @@ if (btnOpenLogin) {
         }
     });
 }
-
 if (btnLogout) {
     btnLogout.addEventListener("click", () => {
-
         AuthService.logout();
-
         miCarrito.clear();
-
         btnLogout.style.display = "none";
-
         if (btnOpenRegister)
             btnOpenRegister.style.display = "inline-block";
-
         if (btnOpenLogin)
             btnOpenLogin.style.display = "inline-block";
-
         renderCarrito(
             document.getElementById("carrito-items"),
             [],
@@ -482,12 +418,9 @@ if (btnLogout) {
             aumentarCantidad,
             disminuirCantidad
         );
-
         const total = document.getElementById("total");
-
         if (total)
             total.textContent = "$0";
-
         const Toast = Swal.mixin({
             toast: true,
             position: "bottom-end",
@@ -495,13 +428,10 @@ if (btnLogout) {
             timer: 2000,
             timerProgressBar: true
         });
-
         Toast.fire({
             title: "Sesión cerrada"
         });
-
         actualizarVistaWishlist();
-
         renderProductos(
             document.getElementById("contenedor-productos"),
             listaProductos,
@@ -510,7 +440,6 @@ if (btnLogout) {
         );
     });
 }
-
 // Botón para finalizar compra
 const btnComprar = document.getElementById("btn-comprar");
 if (btnComprar) {
@@ -524,7 +453,6 @@ if (btnComprar) {
             });
             return;
         }
-
         Swal.fire({
             title: 'Procesando tu pedido',
             text: 'Por favor, espera unos instantes...',
@@ -533,7 +461,6 @@ if (btnComprar) {
                 Swal.showLoading();
             }
         });
-
         try {
             const resultado = await miCarrito.finalizarCompra(listaProductos);
             Swal.fire({
@@ -556,7 +483,6 @@ if (btnComprar) {
         }
     });
 }
-
 // Vaciar carrito
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) {
@@ -568,7 +494,6 @@ if (btnVaciar) {
             });
             return;
         }
-
         Swal.fire({
             title: '¿Estás seguro?',
             text: "No podrás revertir esta acción.",
@@ -591,12 +516,10 @@ if (btnVaciar) {
                         toast.addEventListener('mouseleave', Swal.resumeTimer);
                     }
                 });
-
                 Toast.fire({
                     icon: 'success',
                     title: 'El carrito se ha vaciado'
                 });
-
                 
                 renderCarrito(
                     document.getElementById("carrito-items"),
@@ -616,37 +539,30 @@ const carrito = document.getElementById("carrito-seccion");
 const overlayCarrito = document.getElementById("overlay-carrito");
 
 if (btnCarrito && carrito && overlayCarrito) {
-
     btnCarrito.addEventListener("click", () => {
         carrito.classList.add("abierto");
         overlayCarrito.classList.add("activo");
     });
-
     overlayCarrito.addEventListener("click", () => {
         carrito.classList.remove("abierto");
         overlayCarrito.classList.remove("activo");
     });
 }
-
 if (btnCerrarCarrito && carrito && overlayCarrito) {
-
     btnCerrarCarrito.addEventListener("click", () => {
         carrito.classList.remove("abierto");
         overlayCarrito.classList.remove("activo");
     });
 }
-
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
         carrito.classList.remove("abierto");
         overlayCarrito.classList.remove("activo");
     }
 });
-
 // =========================
 // VIDEO CAMPAÑA
 // =========================
-
 const btnVerCampania = document.getElementById("btn-ver-campania");
 const videoModal = document.getElementById("video-modal");
 const cerrarVideo = document.getElementById("cerrar-video");
@@ -658,31 +574,25 @@ if (
     cerrarVideo &&
     videoCampania
 ) {
-
     const cerrarModalVideo = () => {
         videoModal.classList.remove("activo");
         videoCampania.pause();
         videoCampania.currentTime = 0;
     };
-
     btnVerCampania.addEventListener("click", () => {
         videoModal.classList.add("activo");
         videoCampania.play();
     });
-
     cerrarVideo.addEventListener("click", cerrarModalVideo);
-
     videoModal.addEventListener("click", (e) => {
         if (e.target === videoModal) {
             cerrarModalVideo();
         }
     });
-
     // Cerrar al terminar el video
     videoCampania.addEventListener("ended", () => {
         cerrarModalVideo();
     });
-
     // Cerrar con ESC
     document.addEventListener("keydown", (e) => {
         if (

@@ -6,7 +6,6 @@ export const LocalStorageService = {
             // Eliminamos el console.error para cumplir con la consigna de limpieza total
         }
     },
-
     obtener(key) {
         try {
             const item = localStorage.getItem(key);
